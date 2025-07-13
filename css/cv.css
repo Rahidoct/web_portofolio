@@ -1,0 +1,479 @@
+@import url("https://fonts.googleapis.com/css?family=Orbitron:400,500,700,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  font-family: "Orbitron", monospace;
+}
+
+body {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0d1a 50%, #0d1a1a 100%);
+  background-attachment: fixed;
+  font-size: 14px;
+  line-height: 22px;
+  color: #00ffff;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bold {
+  font-weight: 900;
+  font-size: 20px;
+  text-transform: uppercase;
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 20px currentColor;
+  letter-spacing: 2px;
+}
+
+.semi-bold {
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.resume {
+  width: 800px;
+  height: auto;
+  display: flex;
+  margin: 50px auto;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.3),
+    0 0 40px rgba(255, 0, 255, 0.2),
+    inset 0 0 20px rgba(0, 0, 0, 0.5);
+  border: 2px solid #00ffff;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.resume::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 49%, rgba(0, 255, 255, 0.1) 50%, transparent 51%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.resume .resume_left {
+  width: 280px;
+  background: linear-gradient(180deg, #ff00ff 0%, #8000ff 50%, #0080ff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.resume .resume_left::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 255, 255, 0.1) 2px,
+      rgba(0, 255, 255, 0.1) 4px
+    );
+  pointer-events: none;
+}
+
+.resume .resume_left .resume_profile {
+  width: 100%;
+  height: 280px;
+  position: relative;
+  overflow: hidden;
+}
+
+.resume .resume_left .resume_profile::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background: linear-gradient(45deg, 
+    rgba(255, 0, 255, 0.3) 0%, 
+    transparent 50%, 
+    rgba(0, 255, 255, 0.3) 100%); */
+  /* z-index: 2; */
+}
+
+.resume .resume_left .resume_profile img {
+  width: 100%;
+  height: 100%;
+  background: #ff5100;
+  /* filter: 
+    hue-rotate(180deg) 
+    saturate(2) 
+    contrast(1.2) 
+    brightness(1.1);
+  transition: filter 0.3s ease; */
+}
+
+/* .resume .resume_left .resume_profile:hover img {
+  filter: 
+    hue-rotate(270deg) 
+    saturate(3) 
+    contrast(1.5) 
+    brightness(1.3);
+} */
+
+.resume .resume_left .resume_content {
+  padding: 0 25px;
+  position: relative;
+  z-index: 2;
+}
+
+.resume .title {
+  margin-bottom: 20px;
+  border-bottom: 2px solid #00ffff;
+  padding-bottom: 10px;
+}
+
+.resume .resume_left .bold {
+  font-size: 18px;
+  color: #ffffff;
+  text-shadow: 
+    0 0 5px #00ffff,
+    0 0 10px #00ffff,
+    0 0 20px #00ffff;
+}
+
+.resume .resume_left .regular {
+  color: #00ffff;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.resume .resume_item {
+  padding: 25px 0;
+  border-bottom: 2px solid #00ffff;
+  position: relative;
+}
+
+.resume .resume_item::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #ff00ff, #00ffff);
+  box-shadow: 0 0 10px currentColor;
+}
+
+.resume .resume_left .resume_item:last-child,
+.resume .resume_right .resume_item:last-child {
+  border-bottom: 0px;
+}
+
+.resume .resume_left ul li {
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.resume .resume_left ul li:hover {
+  transform: translateX(5px);
+}
+
+.resume .resume_left ul li:last-child {
+  margin-bottom: 0;
+}
+
+.resume .resume_left ul li .icon {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(45deg, #ff00ff, #00ffff);
+  color: #000000;
+  border-radius: 50%;
+  margin-right: 15px;
+  font-size: 16px;
+  position: relative;
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.5),
+    inset 0 0 10px rgba(255, 255, 255, 0.2);
+  border: 2px solid #ffffff;
+}
+
+.resume .icon i,
+.resume .resume_right .resume_bussines ul li i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+}
+
+.resume .resume_left ul li .data {
+  color: #00ffff;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.resume .resume_left .resume_skills ul li {
+  display: flex;
+  margin-bottom: 10px;
+  color: #00ffff;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resume .resume_left .resume_skills ul li .skill_name {
+  width: 25%;
+  font-weight: 500;
+}
+
+.resume .resume_left .resume_skills ul li .skill_progress {
+  width: 60%;
+  margin: 0 5px;
+  height: 8px;
+  background: #000000;
+  position: relative;
+  border: 1px solid #00ffff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.resume .resume_left .resume_skills ul li .skill_per {
+  width: 15%;
+  font-weight: 500;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.resume .resume_left .resume_skills ul li .skill_progress span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #ff00ff, #00ffff);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+  animation: skillGlow 2s infinite alternate;
+}
+
+@keyframes skillGlow {
+  0% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.7); }
+  100% { box-shadow: 0 0 20px rgba(0, 255, 255, 1); }
+}
+
+.resume .resume_left .resume_social .semi-bold {
+  color: #ffffff;
+  margin-bottom: 3px;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+.resume .resume_right {
+  width: 520px;
+  background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+  padding: 25px;
+  position: relative;
+  border-left: 2px solid #00ffff;
+}
+
+.resume .resume_right::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 10px,
+      rgba(0, 255, 255, 0.05) 10px,
+      rgba(0, 255, 255, 0.05) 12px
+    );
+  pointer-events: none;
+}
+
+.resume .resume_right .bold {
+  color: #00ffff;
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor;
+}
+
+.resume .resume_right .resume_work ul,
+.resume .resume_right .resume_education ul {
+  padding-left: 40px;
+  overflow: hidden;
+}
+
+.resume .resume_right ul li {
+  position: relative;
+  padding: 10px 0;
+  border-left: 2px solid #ff00ff;
+  margin-left: -25px;
+  padding-left: 35px;
+}
+
+.resume .resume_right ul li .date {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  color: #ff00ff;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.resume .resume_right ul li .info {
+  margin-bottom: 20px;
+  color: #00ffff;
+}
+
+.resume .resume_right ul li:last-child .info {
+  margin-bottom: 0;
+}
+
+.resume .resume_right .resume_work ul li:before,
+.resume .resume_right .resume_education ul li:before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: -8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ff00ff, #00ffff);
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+.resume .resume_right .resume_work ul li:after,
+.resume .resume_right .resume_education ul li:after {
+  display: none;
+}
+
+.resume .resume_right .resume_bussines ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+.resume .resume_right .resume_bussines ul li {
+  width: 80px;
+  height: 80px;
+  border: 3px solid #00ffff;
+  border-radius: 50%;
+  position: relative;
+  color: #00ffff;
+  background: linear-gradient(45deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.resume .resume_right .resume_bussines ul li:hover {
+  transform: scale(1.1);
+  box-shadow: 
+    0 0 30px rgba(0, 255, 255, 0.5),
+    inset 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+.resume .resume_right .resume_bussines ul li i {
+  font-size: 30px;
+  color: #00ffff;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.resume .resume_right .resume_bussines ul li:before {
+  content: "";
+  position: absolute;
+  top: 40px;
+  right: -52px;
+  width: 50px;
+  height: 4px;
+  background: linear-gradient(90deg, #ff00ff, #00ffff);
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+}
+
+.resume .resume_right .resume_bussines ul li:last-child:before {
+  display: none;
+}
+
+.resume .resume_right .resume_bussines h4 {
+  padding-top: 10px;
+  color: #00ffff;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.home a {
+  text-decoration: none;
+  color: #00ffff;
+  transition: all 0.3s ease;
+}
+
+.home a:hover {
+  color: #ff00ff;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.home i {
+  display: flex;
+  justify-content: flex-end;
+  color: #00ffff;
+  padding-top: 15px;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.home i:hover {
+  color: #ff00ff;
+  text-shadow: 0 0 15px currentColor;
+  transform: scale(1.1);
+}
+
+/* Cyberpunk animation effects */
+@keyframes cyber-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.resume .title {
+  animation: cyber-flicker 3s infinite;
+}
+
+/* Scanline effect */
+.resume::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ffff, transparent);
+  animation: scanline 3s linear infinite;
+  z-index: 3;
+}
+
+@keyframes scanline {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
