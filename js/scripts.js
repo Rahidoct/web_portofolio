@@ -1,14 +1,8 @@
-/*!
-* Start Bootstrap - Personal v1.0.1 (https://startbootstrap.com/template-overviews/personal)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-personal/blob/master/LICENSE)
-*/
-
 // Satu DOMContentLoaded untuk semua fungsi
 document.addEventListener('DOMContentLoaded', function() {
     
     // =============== DIGITAL BACKGROUND ===============
-    const container = document.createElement('div');
+    const container = document.createElement('body');
     container.className = 'digital-bg';
     document.body.appendChild(container);
 
@@ -19,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const isUp = Math.random() > 0.5;
         
         for (let i = 0; i < streamLength; i++) {
-            const number = document.createElement('div');
+            const number = document.createElement('body');
             number.className = 'digital-number';
             
             // Generate random number (0-9)
@@ -56,6 +50,83 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Continuous creation
     setInterval(createNumberStream, 1000);
+
+    // =============== ACTIVE MENU ON SCROLL (SCROLLSPY) ===============
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.cyberpunk-nav .nav-link');
+
+    if (sections.length > 0 && navLinks.length > 0) {
+        const observerOptions = {
+            root: null, // Menggunakan viewport sebagai root
+            rootMargin: '0px',
+            threshold: 0.5 // Anggap section aktif jika 50% terlihat
+        };
+
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Hapus class 'active' dari semua link
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                    });
+
+                    // Temukan link yang cocok dengan section yang terlihat
+                    const targetId = entry.target.getAttribute('id');
+                    const activeLink = document.querySelector(`.cyberpunk-nav .nav-link[href="#${targetId}"]`);
+                    
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                    }
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        // Amati setiap section
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    }
+
+    // =============== SCROLL TO TOP ===============
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+    if (scrollToTopButton) {
+        scrollToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    } else {
+        console.error('Scroll to top button not found!');
+    }
+
+    // =============== SCROLL-UP BUTTON LOGIC ===============
+    const scrollUpButton = document.getElementById('scroll-up');
+
+    if (scrollUpButton) {
+        const scrollUp = () => {
+            // Jika pengguna telah menggulir lebih dari 350px ke bawah
+            if (window.scrollY >= 350) {
+                scrollUpButton.classList.add('show-scroll');
+            } else {
+                scrollUpButton.classList.remove('show-scroll');
+            }
+        };
+        
+        // Tambahkan event listener saat menggulir halaman
+        window.addEventListener('scroll', scrollUp);
+
+        // Fungsi untuk kembali ke atas saat tombol diklik (opsional, karena href="#" sudah berfungsi)
+        scrollUpButton.addEventListener('click', (e) => {
+            e.preventDefault(); // Mencegah penambahan '#' di URL
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 
     // =============== TYPING EFFECT ===============
     const text = "Fullstack Developer · Mobile Developer · Money Management";
