@@ -89,6 +89,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // =============== DARK/LIGHT THEME TOGGLE ===============
+    const themeToggleButton = document.getElementById('theme-toggle-button');
+    const themeToggleIcon = document.getElementById('theme-toggle-icon');
+    const currentTheme = localStorage.getItem('theme');
+
+    // Fungsi untuk menerapkan tema
+    const applyTheme = (theme) => {
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+            if (themeToggleIcon) themeToggleIcon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
+        } else {
+            document.body.classList.remove('dark-mode');
+            if (themeToggleIcon) themeToggleIcon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
+        }
+    };
+
+    // Terapkan tema yang tersimpan saat halaman dimuat
+    if (currentTheme) {
+        applyTheme(currentTheme);
+    }
+
+    // Event listener untuk tombol toggle
+    if (themeToggleButton) {
+        themeToggleButton.addEventListener('click', () => {
+            let theme;
+            // Cek tema saat ini dan ganti
+            if (document.body.classList.contains('dark-mode')) {
+                theme = 'light';
+            } else {
+                theme = 'dark';
+            }
+            // Terapkan tema baru dan simpan ke localStorage
+            applyTheme(theme);
+            localStorage.setItem('theme', theme);
+        });
+    }
+
     // =============== SCROLL TO TOP ===============
     const scrollToTopButton = document.getElementById('scroll-to-top');
     if (scrollToTopButton) {
@@ -98,8 +135,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 behavior: 'smooth'
             });
         });
-    } else {
-        console.error('Scroll to top button not found!');
     }
 
     // =============== SCROLL-UP BUTTON LOGIC ===============
