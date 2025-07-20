@@ -19,11 +19,12 @@
         <link rel="stylesheet" href="css/styles.css" />
     </head>
     <body class="d-flex flex-column h-100">
+        <canvas id="digital-rain-canvas" class="digital-bg"></canvas>
         <main class="flex-shrink-0">
             <!-- Navigation-->
             <nav class="navbar sticky-top navbar-expand-lg bg-white py-3">
                 <div class="container px-5">
-                    <a class="navbar-brand" href="index.html"><span class="fw-bolder text-cyberpunk">RAHMAT_HIDAYAT.DEV</span></a>
+                    <a class="navbar-brand align-items-center" href="index.html"><span class="fw-bolder text-cyberpunk">RAHMAT_HIDAYAT.DEV</span></a>
                     <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <div class="hamburger-icon">
                             <span></span>
@@ -32,14 +33,14 @@
                         </div>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto mb-lg-0 small fw-bolder cyberpunk-nav">
+                        <ul class="navbar-nav ms-auto mb-lg-0 small fw-bolder cyberpunk-nav align-items-center">
                             <li class="nav-item"><a class="nav-link" href="#home.exe">[ HOME.EXE ]</a></li>
                             <li class="nav-item"><a class="nav-link" href="#about.md">[ ABOUT.MD ]</a></li>
                             <li class="nav-item"><a class="nav-link" href="cv.html">[ RESUME.SYS ]</a></li>
                             <li class="nav-item"><a class="nav-link" href="#projects.net">[ PROJECTS.NET ]</a></li>
                             <li class="nav-item"><a class="nav-link" href="#contact.hub">[ CONTACT.HUB ]</a></li>
 
-                            <!-- === TOMBOL TEMA BARU DITAMBAHKAN DI SINI === -->
+                            <!-- === TOMBOL TEMA DARK/LIGHT === -->
                             <li class="nav-item">
                                 <a class="nav-link theme-toggle" id="theme-toggle-button">
                                     <i class="bi bi-moon-stars-fill" id="theme-toggle-icon"></i>
@@ -51,7 +52,7 @@
             </nav>
             <!-- Section Profile -->
             <section class="py-3" id="home.exe">
-                <div class="container px-5 pb-5">
+                <div class="container px-5 pb-5 py-3">
                     <div class="row gx-5 align-items-center">
                         <div class="col-xxl-5">
                             <!-- section text content-->
@@ -273,7 +274,7 @@
             <section class="projects-section">
                 <div class="container mb-5">
                     
-                    <div class="projects-bento-grid">
+                    <div class="bento-grid">
                         <!-- Project 1 - E-commerce Platform -->
                         <div class="project-card project large">
                             <div class="floating-shapes">

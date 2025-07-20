@@ -1,297 +1,214 @@
-// Satu DOMContentLoaded untuk semua fungsi
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // =============== DIGITAL BACKGROUND ===============
-    const container = document.createElement('body');
-    container.className = 'digital-bg';
-    document.body.appendChild(container);
 
-    function createNumberStream() {
-        const streamLength = 10 + Math.floor(Math.random() * 15);
-        const startX = Math.random() * window.innerWidth;
-        const endX = startX + (Math.random() * 40 - 20);
-        const isUp = Math.random() > 0.5;
-        
-        for (let i = 0; i < streamLength; i++) {
-            const number = document.createElement('body');
-            number.className = 'digital-number';
+    const digitalRainEffect = {
+        canvas: null,
+        ctx: null,
+        columns: 0,
+        rainDrops: [],
+        fontSize: 16,
+        currentBgFade: '',
+        currentTextColor: '',
+
+        init: function() {
+            this.canvas = document.getElementById('digital-rain-canvas');
+            if (!this.canvas) return;
+
+            this.ctx = this.canvas.getContext('2d');
+            this.setupDimensions();
+            this.setupRainDrops();
+            this.updateColors();
             
-            // Generate random number (0-9)
-            number.textContent = Math.floor(Math.random() * 10);
-            
-            // Set position and animation
-            number.style.setProperty('--start-x', `${startX}px`);
-            number.style.setProperty('--end-x', `${endX}px`);
-            
-            if (isUp) {
-                number.style.animation = `float-up ${5 + Math.random() * 5}s linear infinite`;
-            } else {
-                number.style.animation = `float-down ${5 + Math.random() * 5}s linear infinite`;
-            }
-            
-            // Staggered delay for stream effect
-            number.style.animationDelay = `${i * 0.1}s`;
-            
-            container.appendChild(number);
-            
-            // Cleanup
-            setTimeout(() => {
-                if (number.parentNode) {
-                    number.remove();
-                }
-            }, 20000);
-        }
-    }
+            setInterval(() => this.draw(), 40);
 
-    // Initial creation
-    for (let i = 0; i < 20; i++) {
-        setTimeout(createNumberStream, i * 500);
-    }
-
-    // Continuous creation
-    setInterval(createNumberStream, 1000);
-
-    // =============== ACTIVE MENU ON SCROLL (SCROLLSPY) ===============
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.cyberpunk-nav .nav-link');
-
-    if (sections.length > 0 && navLinks.length > 0) {
-        const observerOptions = {
-            root: null, // Menggunakan viewport sebagai root
-            rootMargin: '0px',
-            threshold: 0.5 // Anggap section aktif jika 50% terlihat
-        };
-
-        const observerCallback = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Hapus class 'active' dari semua link
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                    });
-
-                    // Temukan link yang cocok dengan section yang terlihat
-                    const targetId = entry.target.getAttribute('id');
-                    const activeLink = document.querySelector(`.cyberpunk-nav .nav-link[href="#${targetId}"]`);
-                    
-                    if (activeLink) {
-                        activeLink.classList.add('active');
-                    }
-                }
+            window.addEventListener('resize', () => {
+                this.setupDimensions();
+                this.setupRainDrops();
+                // Perbarui warna juga saat resize jika tema OS berubah
+                this.updateColors(); 
             });
-        };
+        },
 
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
+        setupDimensions: function() {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+            this.columns = Math.floor(this.canvas.width / this.fontSize);
+        },
 
-        // Amati setiap section
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-    }
+        setupRainDrops: function() {
+            this.rainDrops = [];
+            for (let i = 0; i < this.columns; i++) {
+                const goingDown = Math.random() > 0.5;
+                this.rainDrops[i] = {
+                    y: goingDown ? 1 : Math.floor(this.canvas.height / this.fontSize),
+                    direction: goingDown ? 1 : -1
+                };
+            }
+        },
+
+        updateColors: function() {
+            const rootStyles = getComputedStyle(document.documentElement);
+            this.currentBgFade = rootStyles.getPropertyValue('--canvas-bg-fade').trim();
+            this.currentTextColor = rootStyles.getPropertyValue('--canvas-text-color').trim();
+        },
+
+        draw: function() {
+            this.ctx.fillStyle = this.currentBgFade;
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            this.ctx.fillStyle = this.currentTextColor;
+            this.ctx.font = this.fontSize + 'px monospace';
+
+            for (let i = 0; i < this.rainDrops.length; i++) {
+                const drop = this.rainDrops[i];
+                if (!drop) continue;
+
+                const text = '01'.charAt(Math.floor(Math.random() * 2));
+                this.ctx.fillText(text, i * this.fontSize, drop.y * this.fontSize);
+                drop.y += drop.direction;
+
+                const isOffScreen = (drop.direction === 1 && drop.y * this.fontSize > this.canvas.height) ||
+                                    (drop.direction === -1 && drop.y * this.fontSize < 0);
+
+                if (isOffScreen && Math.random() > 0.98) {
+                    const goingDown = Math.random() > 0.5;
+                    drop.direction = goingDown ? 1 : -1;
+                    drop.y = goingDown ? 1 : Math.floor(this.canvas.height / this.fontSize);
+                }
+            }
+        }
+    };
+
+    digitalRainEffect.init();
 
     // =============== DARK/LIGHT THEME TOGGLE ===============
     const themeToggleButton = document.getElementById('theme-toggle-button');
     const themeToggleIcon = document.getElementById('theme-toggle-icon');
-    const currentTheme = localStorage.getItem('theme');
-
-    // Fungsi untuk menerapkan tema
+    
+    // Fungsi untuk menerapkan tema berdasarkan class di <html>
     const applyTheme = (theme) => {
+        const htmlEl = document.documentElement;
         if (theme === 'dark') {
-            document.body.classList.add('dark-mode');
+            htmlEl.classList.add('dark-mode');
             if (themeToggleIcon) themeToggleIcon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
         } else {
-            document.body.classList.remove('dark-mode');
+            htmlEl.classList.remove('dark-mode');
             if (themeToggleIcon) themeToggleIcon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
         }
+        // Perintahkan kanvas untuk memperbarui warnanya
+        if (digitalRainEffect.canvas) {
+            digitalRainEffect.updateColors();
+        }
     };
+    
+    // Periksa tema yang tersimpan di localStorage
+    const savedTheme = localStorage.getItem('theme');
+    // Periksa tema preferensi OS
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    // Terapkan tema yang tersimpan saat halaman dimuat
-    if (currentTheme) {
-        applyTheme(currentTheme);
+    // Prioritas: localStorage > Preferensi OS > Default (terang)
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else if (prefersDark) {
+        applyTheme('dark');
+    } else {
+        applyTheme('light'); // Default
     }
 
-    // Event listener untuk tombol toggle
+    // Event listener untuk tombol
     if (themeToggleButton) {
         themeToggleButton.addEventListener('click', () => {
-            let theme;
-            // Cek tema saat ini dan ganti
-            if (document.body.classList.contains('dark-mode')) {
-                theme = 'light';
-            } else {
-                theme = 'dark';
-            }
-            // Terapkan tema baru dan simpan ke localStorage
-            applyTheme(theme);
-            localStorage.setItem('theme', theme);
+            const htmlEl = document.documentElement;
+            const newTheme = htmlEl.classList.contains('dark-mode') ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
         });
     }
 
-    // =============== SCROLL TO TOP ===============
-    const scrollToTopButton = document.getElementById('scroll-to-top');
-    if (scrollToTopButton) {
-        scrollToTopButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+    // ... Sisa kode Anda ...
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.cyberpunk-nav .nav-link');
+    if (sections.length > 0 && navLinks.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    const targetId = entry.target.getAttribute('id');
+                    const activeLink = document.querySelector(`.cyberpunk-nav .nav-link[href="#${targetId}"]`);
+                    if (activeLink) activeLink.classList.add('active');
+                }
             });
-        });
+        }, { root: null, rootMargin: '0px', threshold: 0.5 });
+        sections.forEach(section => observer.observe(section));
     }
-
-    // =============== SCROLL-UP BUTTON LOGIC ===============
-    const scrollUpButton = document.getElementById('scroll-up');
-
-    if (scrollUpButton) {
-        const scrollUp = () => {
-            // Jika pengguna telah menggulir lebih dari 350px ke bawah
-            if (window.scrollY >= 350) {
-                scrollUpButton.classList.add('show-scroll');
-            } else {
-                scrollUpButton.classList.remove('show-scroll');
-            }
-        };
-        
-        // Tambahkan event listener saat menggulir halaman
-        window.addEventListener('scroll', scrollUp);
-
-        // Fungsi untuk kembali ke atas saat tombol diklik (opsional, karena href="#" sudah berfungsi)
-        scrollUpButton.addEventListener('click', (e) => {
-            e.preventDefault(); // Mencegah penambahan '#' di URL
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-
-    // =============== TYPING EFFECT ===============
-    const text = "Fullstack Developer · Mobile Developer · Money Management";
-    const typingElement = document.getElementById("typing-text");
     
-    if (typingElement) {
-        let index = 0;
-        function type() {
-            if (index < text.length) {
-                typingElement.textContent += text.charAt(index);
-                index++;
-                setTimeout(type, 80); // Kecepatan ketik (ms)
-            }
-        }
-        // Mulai typing effect
-        type();
+    const scrollUpButton = document.getElementById('scroll-up');
+    if (scrollUpButton) {
+        let scrollTimeout;
+        const throttledScrollUp = () => {
+            if (scrollTimeout) return;
+            scrollTimeout = setTimeout(() => {
+                scrollUpButton.classList.toggle('show-scroll', window.scrollY >= 350);
+                scrollTimeout = null;
+            }, 150);
+        };
+        window.addEventListener('scroll', throttledScrollUp);
+        scrollUpButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     }
 
-    // =============== EMAIL JS ===============
-    // Inisialisasi EmailJS
-    if (typeof emailjs !== 'undefined') {
-        emailjs.init("AqRtbEOQdTTA21lRG");
+    const typingElement = document.getElementById("typing-text");
+    if (typingElement) {
+        const text = "Fullstack Developer · Mobile Developer · Money Management";
+        let index = 0;
+        (function type() {
+            if (index < text.length) {
+                typingElement.textContent += text.charAt(index++);
+                setTimeout(type, 80);
+            }
+        })();
     }
 
     const contactForm = document.getElementById('contact-form');
-    const contactName = document.getElementById('contact-name');
-    const contactEmail = document.getElementById('contact-email');
-    const contactProject = document.getElementById('contact-project');
-    const contactMessage = document.getElementById('contact-message');
-
-    // Debug: Cek apakah elemen ditemukan
-    console.log('Form elements check:', {
-        contactForm: !!contactForm,
-        contactName: !!contactName,
-        contactEmail: !!contactEmail,
-        contactProject: !!contactProject,
-        contactMessage: !!contactMessage,
-        emailjs: typeof emailjs !== 'undefined'
-    });
-
-    const sendEmail = (e) => {
-        e.preventDefault();
-        
-        console.log('Form submitted!');
-        
-        // Pastikan semua elemen ada
-        if (!contactName || !contactEmail || !contactProject || !contactMessage) {
-            console.error('Some form elements are missing!');
-            return;
-        }
-        
-        // Check if all fields have values
-        if(contactName.value.trim() === '' || contactEmail.value.trim() === '' || contactProject.value.trim() === ''){
-            console.log('Validation failed - empty fields');
-            contactMessage.classList.remove('color-blue');
-            contactMessage.classList.add('color-red');
-            contactMessage.textContent = 'Write all the input fields 🤔';
-        } else {
-            console.log('Validation passed - sending email');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const contactMessage = document.getElementById('contact-message');
+            const contactName = document.getElementById('contact-name');
+            const contactEmail = document.getElementById('contact-email');
+            const contactProject = document.getElementById('contact-project');
             
-            // Cek EmailJS
-            if (typeof emailjs === 'undefined') {
-                console.error('EmailJS is not loaded!');
+            if (!contactName.value.trim() || !contactEmail.value.trim() || !contactProject.value.trim()) {
                 contactMessage.classList.remove('color-blue');
                 contactMessage.classList.add('color-red');
-                contactMessage.textContent = 'EmailJS library not loaded!';
+                contactMessage.textContent = 'Write all the input fields 🤔';
                 return;
             }
-            
-            // Show loading
+            if (typeof emailjs === 'undefined') {
+                contactMessage.classList.remove('color-blue');
+                contactMessage.classList.add('color-red');
+                contactMessage.textContent = 'Email service is currently unavailable.';
+                return;
+            }
             contactMessage.classList.remove('color-red');
             contactMessage.classList.add('color-blue');
             contactMessage.textContent = 'Sending message... ⏳';
-            
-            // serviceID - templateID - #form - publicKey
-            emailjs.sendForm('service_8vbllr8','template_povc7fs','#contact-form','AqRtbEOQdTTA21lRG')
+            emailjs.sendForm('service_8vbllr8', 'template_povc7fs', this, 'AqRtbEOQdTTA21lRG')
                 .then(() => {
-                    console.log('Email sent successfully!');
-                    // Show success message
-                    contactMessage.classList.remove('color-red');
-                    contactMessage.classList.add('color-blue');
                     contactMessage.textContent = 'Message sent, thanks.. 👌';
-
-                    // Reset all form fields
-                    contactName.value = '';
-                    contactEmail.value = '';
-                    contactProject.value = '';
-                    
-                    // Remove message after 5 seconds
-                    setTimeout(() => {
-                        contactMessage.textContent = '';
-                        contactMessage.classList.remove('color-blue');
-                    }, 5000);
-                })
-                .catch((error) => {
-                    console.error('EmailJS Error Details:', error);
-                    console.error('Error status:', error.status);
-                    console.error('Error text:', error.text);
-                    
-                    // Show error message
-                    contactMessage.classList.remove('color-blue');
-                    contactMessage.classList.add('color-red');
-                    
-                    // Show specific error message
-                    if (error.status === 400) {
-                        contactMessage.textContent = 'Invalid template or service ID';
-                    } else if (error.status === 401) {
-                        contactMessage.textContent = 'Invalid public key';
-                    } else if (error.status === 402) {
-                        contactMessage.textContent = 'Email quota exceeded';
-                    } else if (error.status === 403) {
-                        contactMessage.textContent = 'Access denied';
-                    } else {
-                        contactMessage.textContent = `Error: ${error.text || 'Something went wrong'}`;
-                    }
+                    this.reset();
+                    setTimeout(() => contactMessage.textContent = '', 5000);
+                }, (error) => {
+                    contactMessage.textContent = `Error: ${error.text || 'Something went wrong'}`;
                 });
-        }    
-    };
-
-    // Attach event listener hanya jika form ada
-    if (contactForm) {
-        contactForm.addEventListener('submit', sendEmail);
-        console.log('Event listener attached successfully');
-    } else {
-        console.error('Contact form not found!');
+        });
     }
-
-    // =============== FOOTER YEAR ===============
+    
     const tahunElement = document.getElementById('tahun');
     if (tahunElement) {
-        tahunElement.innerHTML += new Date().getFullYear();
+        const currentYear = new Date().getFullYear();
+        if (!tahunElement.textContent.includes(currentYear)) {
+             tahunElement.innerHTML += currentYear;
+        }
     }
 });
