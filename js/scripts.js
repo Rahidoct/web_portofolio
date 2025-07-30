@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    // =============== DIGITAL RAIN EFFECT ===============
     const digitalRainEffect = {
         canvas: null,
         ctx: null,
@@ -23,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
             window.addEventListener('resize', () => {
                 this.setupDimensions();
                 this.setupRainDrops();
-                // Perbarui warna juga saat resize jika tema OS berubah
                 this.updateColors(); 
             });
         },
@@ -76,14 +76,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     };
-
+    // Inisialisasi efek hujan digital
     digitalRainEffect.init();
 
-    // =============== DARK/LIGHT THEME TOGGLE ===============
+
+    // =============== DARK/LIGHT THEME & AUTO-THEME LOGIC ===============
     const themeToggleButton = document.getElementById('theme-toggle-button');
     const themeToggleIcon = document.getElementById('theme-toggle-icon');
     
-    // Fungsi untuk menerapkan tema berdasarkan class di <html>
+    // Fungsi untuk menerapkan tema ke dokumen
     const applyTheme = (theme) => {
         const htmlEl = document.documentElement;
         if (theme === 'dark') {
@@ -93,37 +94,50 @@ document.addEventListener('DOMContentLoaded', function() {
             htmlEl.classList.remove('dark-mode');
             if (themeToggleIcon) themeToggleIcon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
         }
-        // Perintahkan kanvas untuk memperbarui warnanya
-        if (digitalRainEffect.canvas) {
+        // Perintahkan kanvas untuk memperbarui warnanya setelah tema berubah
+        if (typeof digitalRainEffect !== 'undefined' && digitalRainEffect.canvas) {
             digitalRainEffect.updateColors();
         }
     };
+
+    // Fungsi untuk mengatur tema awal saat halaman dimuat
+    const setInitialTheme = () => {
+        const savedTheme = localStorage.getItem('theme');
+
+        // Prioritas 1: Jika pengguna sudah memilih tema secara manual, gunakan itu.
+        if (savedTheme) {
+            applyTheme(savedTheme);
+            return; // Hentikan fungsi di sini
+        }
+
+        // Prioritas 2: Jika tidak ada pilihan manual, atur otomatis berdasarkan waktu.
+        const currentHour = new Date().getHours(); // Dapatkan jam saat ini (format 0-23)
+
+        // Atur ke mode gelap jika waktu antara jam 18:00 (inklusif) dan 06:00 (eksklusif)
+        if (currentHour >= 18 || currentHour < 6) {
+            applyTheme('dark');
+        } else {
+            applyTheme('light');
+        }
+    };
     
-    // Periksa tema yang tersimpan di localStorage
-    const savedTheme = localStorage.getItem('theme');
-    // Periksa tema preferensi OS
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Panggil fungsi untuk mengatur tema saat halaman pertama kali dibuka
+    setInitialTheme();
 
-    // Prioritas: localStorage > Preferensi OS > Default (terang)
-    if (savedTheme) {
-        applyTheme(savedTheme);
-    } else if (prefersDark) {
-        applyTheme('dark');
-    } else {
-        applyTheme('light'); // Default
-    }
-
-    // Event listener untuk tombol
+    // Tambahkan event listener untuk tombol pengubah tema
     if (themeToggleButton) {
         themeToggleButton.addEventListener('click', () => {
             const htmlEl = document.documentElement;
+            // Tentukan tema baru berdasarkan kondisi saat ini
             const newTheme = htmlEl.classList.contains('dark-mode') ? 'light' : 'dark';
             applyTheme(newTheme);
+            // Simpan pilihan pengguna ke localStorage untuk menimpa setelan otomatis pada kunjungan berikutnya
             localStorage.setItem('theme', newTheme);
         });
     }
 
-    // ... Sisa kode Anda ...
+
+    // =============== ACTIVE NAV LINK ON SCROLL ===============
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.cyberpunk-nav .nav-link');
     if (sections.length > 0 && navLinks.length > 0) {
@@ -140,6 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
         sections.forEach(section => observer.observe(section));
     }
     
+
+    // =============== SCROLL TO TOP BUTTON ===============
     const scrollUpButton = document.getElementById('scroll-up');
     if (scrollUpButton) {
         let scrollTimeout;
@@ -157,6 +173,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+
+    // =============== TYPING EFFECT ===============
     const typingElement = document.getElementById("typing-text");
     if (typingElement) {
         const text = "Fullstack Developer · Mobile Developer · Money Management";
@@ -169,6 +187,18 @@ document.addEventListener('DOMContentLoaded', function() {
         })();
     }
 
+    // =============== SET PROJECT CARD BACKGROUND IMAGES ===============
+    const projectCards = document.querySelectorAll('.projects-grid .bento-card');
+    projectCards.forEach(card => {
+        const imageUrl = card.dataset.bgImage;
+        if (imageUrl) {
+            card.style.backgroundImage = `url('${imageUrl}')`;
+            card.style.backgroundSize = 'cover';
+            card.style.backgroundPosition = 'center';
+        }
+    });
+
+    // =============== CONTACT FORM (EMAILJS) ===============
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -204,6 +234,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+
+    // =============== DYNAMIC YEAR IN FOOTER ===============
     const tahunElement = document.getElementById('tahun');
     if (tahunElement) {
         const currentYear = new Date().getFullYear();
