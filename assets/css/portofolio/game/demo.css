@@ -1,0 +1,388 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: white;
+    min-height: 100vh;
+}
+
+.dashboard {
+    background: white;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+.sidebar {
+    background: #f8f9fa;
+    padding: 25px 20px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.logo-icon {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    color: #666;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 13px;
+}
+
+.nav-item:hover {
+    background: #e9ecef;
+    color: #333;
+}
+
+.nav-item.active {
+    background: #007bff;
+    color: white;
+}
+
+.nav-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 25px 30px;
+    background: white;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 16px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-secondary {
+    background: #e9ecef;
+    color: #666;
+}
+
+.btn-primary {
+    background: #333;
+    color: white;
+}
+
+.user-avatars {
+    display: flex;
+    gap: 3px;
+}
+
+.user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.profile-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-face {
+    width: 55px;
+    height: 55px;
+    background: #fdbcb4;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: relative;
+}
+
+.avatar-hair {
+    position: absolute;
+    top: 7px;
+    left: 13px;
+    width: 28px;
+    height: 18px;
+    background: #d2691e;
+    border-radius: 50%;
+}
+
+.avatar-eyes {
+    position: absolute;
+    top: 18px;
+    left: 16px;
+    width: 3px;
+    height: 3px;
+    background: #333;
+    border-radius: 50%;
+    box-shadow: 8px 0 0 #333;
+}
+
+.avatar-mouth {
+    position: absolute;
+    top: 28px;
+    left: 22px;
+    width: 6px;
+    height: 3px;
+    background: #333;
+    border-radius: 0 0 6px 6px;
+}
+
+.fire-icon {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 16px;
+    height: 16px;
+    background: #ff4757;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+.profile-info h2 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.stats {
+    display: flex;
+    gap: 40px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-icon {
+    width: 12px;
+    height: 12px;
+    background: #666;
+    border-radius: 2px;
+}
+
+.stat-number {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #666;
+    margin-left: 5px;
+}
+
+.sections {
+    display: flex;
+    gap: 30px;
+    margin-top: 25px;
+}
+
+.section {
+    flex: 1;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-count {
+    background: #fff;
+    color: #666;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.view-all {
+    color: #007bff;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 3px;
+    background: #e9ecef;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.progress-pink {
+    background: linear-gradient(90deg, #ff9a9e, #fecfef);
+}
+
+.progress-blue {
+    background: linear-gradient(90deg, #a8edea, #fed6e3);
+}
+
+.items-grid {
+    display: flex;
+    gap: 12px;
+}
+
+.achievement-item {
+    text-align: center;
+    width: 70px;
+}
+
+.medal {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.medal.silver {
+    background: linear-gradient(45deg, #c0c0c0, #e5e5e5);
+}
+
+.medal.gold {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+}
+
+.achievement-label {
+    font-size: 10px;
+    color: #666;
+    font-weight: 500;
+}
+
+.inventory-item {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: white;
+    margin: 0 auto 8px;
+}
+
+.inventory-item.green {
+    background: #4ecdc4;
+}
+
+.inventory-item.yellow {
+    background: #ffd93d;
+}
+
+.inventory-item.pink {
+    background: #ff6b9d;
+}
+
+.inventory-label {
+    font-size: 9px;
+    color: #666;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.bottom-profile {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.bottom-avatar {
+    width: 24px;
+    height: 24px;
+    background: #4ecdc4;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.bottom-name {
+    font-size: 11px;
+    color: #666;
+    font-weight: 500;
+}
