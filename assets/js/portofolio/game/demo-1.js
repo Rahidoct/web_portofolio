@@ -12,6 +12,51 @@ window.addEventListener('load', function() {
     }, 1500);
 });
 
+// ================================
+// LOGIKA THEME TOGGLE
+// ================================
+const themeToggleBtn = document.getElementById('themeToggle');
+if (themeToggleBtn) {
+    const themeIcon = themeToggleBtn.querySelector('i');
+
+    // Cek tema tersimpan di localStorage atau preferensi sistem
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem('theme');
+    
+    // Fungsi untuk menerapkan tema
+    const applyTheme = (theme) => {
+        if (theme === 'light') {
+            document.documentElement.classList.add('light-theme');
+            if(themeIcon) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.classList.remove('light-theme');
+            if(themeIcon) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            localStorage.setItem('theme', 'dark');
+        }
+    };
+
+    // Terapkan tema saat halaman dimuat
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else {
+        applyTheme(prefersDark ? 'dark' : 'light');
+    }
+
+    // Event listener untuk tombol toggle
+    themeToggleBtn.addEventListener('click', () => {
+        playSound('select'); // Memakai ulang sound effect yang ada
+        const currentIsLight = document.documentElement.classList.contains('light-theme');
+        applyTheme(currentIsLight ? 'dark' : 'light');
+    });
+}
+
 // Initialize audio
 function initAudio() {
     try {
@@ -301,6 +346,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.querySelectorAll('.inventory-slot[data-type="skills"], .inventory-slot[data-type="experience"]').forEach(slot => {
         slot.addEventListener('click', function() {
+            playSound('select');
+
             const title = this.querySelector('.slot-title').textContent;
             const tooltip = this.querySelector('.tooltip')?.textContent || 'No description available';
             document.getElementById('modalTitle').innerHTML = title.toUpperCase();

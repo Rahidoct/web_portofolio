@@ -44,30 +44,6 @@
     .profile-details p { font-size: 12px; color: var(--secondary-color); margin:0; }
     .menu-toggle { display: none; font-size: 20px; cursor: pointer; }
     
-    /* MOBILE NAVIGATION */
-    .mobile-nav {
-        display: none;
-        flex-direction: column;
-        background-color: var(--white-color);
-        padding: 10px 0;
-        border-top: 1px solid var(--border-color);
-    }
-    .mobile-nav .nav-tab {
-        padding: 12px 40px; /* Samakan dengan padding container */
-        text-align: left;
-        border-radius: 0;
-        width: 100%;
-        justify-content: flex-start;
-    }
-    .mobile-nav .nav-tab.active {
-        background-color: #f0f0f0;
-        color: var(--primary-color);
-        box-shadow: none;
-    }
-    .header.nav-open .mobile-nav {
-        display: flex;
-    }
-    
     /* SEARCH SECTION */
     .search-section { padding: 30px 0; }
     .search-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px; }
@@ -176,7 +152,7 @@
     /* TABLET (992px) - TITIK KRUSIAL PERUBAHAN LAYOUT */
     @media (max-width: 992px) {
       .container { padding: 0 20px; }
-      .nav-tabs { display: none; } /* Sembunyikan navigasi utama di desktop */
+      .nav-tabs { display: none; } /* Sembunyikan navigasi utama */
       .menu-toggle { display: block; } /* Tampilkan ikon hamburger */
       
       .main-content {
@@ -204,7 +180,6 @@
       .header-icons { display: none; } /* Sembunyikan ikon notif dan pesan */
       .search-controls { flex-direction: column; align-items: stretch; }
       .search-box { justify-content: center; }
-      .search-input { width: 100%; }
       .action-tabs, .view-toggle { justify-content: center; }
       .action-tab { padding: 10px 18px; font-size: 15px; }
       .footer-links-group { grid-template-columns: repeat(2, 1fr); }
@@ -253,13 +228,6 @@
           <i class="fas fa-bars menu-toggle"></i>
         </div>
       </div>
-      <!-- Navigasi untuk Tampilan Mobile -->
-      <nav class="mobile-nav">
-        <button class="nav-tab active" data-type="house">House</button>
-        <button class="nav-tab" data-type="villa">Villa</button>
-        <button class="nav-tab" data-type="apartment">Apartment</button>
-        <button class="nav-tab" data-type="guesthouse">Guesthouse</button>
-      </nav>
     </div>
   </header>
 
@@ -279,8 +247,8 @@
           <button class="filter-btn"><i class="fas fa-sliders-h"></i></button>
         </div>
         <div class="view-toggle">
-          <button class="view-btn active" data-view="grid"><i class="fas fa-th-large"></i> Grid</button>
-          <button class="view-btn" data-view="map"><i class="fas fa-map-marked-alt"></i> Map</button>
+          <button class="view-btn" data-view="grid"><i class="fas fa-th-large"></i> Grid</button>
+          <button class="view-btn active" data-view="map"><i class="fas fa-map-marked-alt"></i> Map</button>
         </div>
       </div>
     </section>
@@ -364,39 +332,24 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // ========= DATA DUMMY (15 Properti) =========
     const properties = [
-        { id: 1, image: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 20, status: "For sale", price: 389781, beds: 4, baths: 2, sqft: 1990, address: "6391 Elgin St. Celina, Delaware 10299", listedBy: "Turja Design Group, Inc.", agent: { name: "Brandon Levin", phone: "(480) 555-0103", avatar: "https://i.pravatar.cc/35?u=brandon" }, type: "house", location: { lat: 47.6205, lng: -122.3493 } },
+        { id: 1, image: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 20, status: "For sale", price: 389781, beds: 4, baths: 2, sqft: 1090, address: "6391 Elgin St. Celina, Delaware 10299", listedBy: "Turja Design Group, Inc.", agent: { name: "Brandon Levin", phone: "(480) 555-0103", avatar: "https://i.pravatar.cc/35?u=brandon" }, type: "house", location: { lat: 47.6205, lng: -122.3493 } },
         { id: 2, image: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 12, status: "For sale", price: 160581, beds: 5, baths: 4, sqft: 2240, address: "2715 Ash Dr. San Jose, South Dakota", listedBy: "SENDAS Estate Group, Inc.", agent: { name: "Gustavo Calzoni", phone: "(808) 274-0111", avatar: "https://i.pravatar.cc/35?u=gustavo" }, type: "villa", location: { lat: 47.6097, lng: -122.3331 } },
-        { id: 3, image: "https://images.pexels.com/photos/209296/pexels-photo-209296.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 17, status: "For sale", price: 778100, beds: 4, baths: 3, sqft: 2500, address: "4140 Parker Rd, New Mexico 31134", listedBy: "Stark Real Estate", agent: { name: "Chance Dorwart", phone: "(209) 009-0104", avatar: "https://i.pravatar.cc/35?u=chance" }, type: "house", location: { lat: 47.6145, lng: -122.3119, selected: true } },
-        { id: 4, image: "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 15, status: "For rent", price: 2400, beds: 2, baths: 1, sqft: 950, address: "1901 Thornridge Cir. Shiloh, Hawaii", listedBy: "Quantum Properties", agent: { name: "Craig Herwitz", phone: "(629) 172-0129", avatar: "https://i.pravatar.cc/35?u=craig" }, type: "guesthouse", location: { lat: 47.5952, lng: -122.3321 } },
-        { id: 5, image: "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 25, status: "For sale", price: 650000, beds: 3, baths: 2, sqft: 1800, address: "8502 Preston Rd. Inglewood, Maine 98380", listedBy: "Horizon Realty", agent: { name: "Amina G.", phone: "(310) 555-0123", avatar: "https://i.pravatar.cc/35?u=amina" }, type: "apartment", location: { lat: 47.6250, lng: -122.3350 } },
-        { id: 6, image: "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 18, status: "For sale", price: 420000, beds: 3, baths: 2, sqft: 1650, address: "3891 Ranchview Dr. Richardson, California", listedBy: "Evergreen Estates", agent: { name: "James Sullivan", phone: "(503) 555-0155", avatar: "https://i.pravatar.cc/35?u=james" }, type: "house", location: { lat: 47.6005, lng: -122.3421 } },
-        { id: 7, image: "https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 30, status: "For sale", price: 1250000, beds: 6, baths: 5, sqft: 4500, address: "9091 Rosewood Dr. Beverly Hills, CA", listedBy: "Luxury Homes Co.", agent: { name: "Sofia Loren", phone: "(213) 555-0199", avatar: "https://i.pravatar.cc/35?u=sofia" }, type: "villa", location: { lat: 47.6185, lng: -122.3219 } },
-        { id: 8, image: "https://images.pexels.com/photos/208736/pexels-photo-208736.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 10, status: "For rent", price: 1800, beds: 1, baths: 1, sqft: 750, address: "123 Main St. Anytown, USA", listedBy: "Cozy Rentals", agent: { name: "John Doe", phone: "(415) 555-0142", avatar: "https://i.pravatar.cc/35?u=john" }, type: "guesthouse", location: { lat: 47.5999, lng: -122.3111 } },
-        { id: 9, image: "https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 22, status: "For sale", price: 890000, beds: 2, baths: 2, sqft: 1500, address: "4517 Washington Ave. Manchester, Kentucky", listedBy: "Urban Living", agent: { name: "Maria Garcia", phone: "(718) 555-0133", avatar: "https://i.pravatar.cc/35?u=maria" }, type: "apartment", location: { lat: 47.6301, lng: -122.3505 } },
-        { id: 10, image: "https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 16, status: "For sale", price: 560000, beds: 4, baths: 3, sqft: 2100, address: "2464 Royal Ln. Mesa, New Jersey", listedBy: "Stark Real Estate", agent: { name: "Chance Dorwart", phone: "(209) 009-0104", avatar: "https://i.pravatar.cc/35?u=chance" }, type: "house", location: { lat: 47.6055, lng: -122.3553 } },
-        { id: 11, image: "https://images.pexels.com/photos/1115804/pexels-photo-1115804.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 28, status: "For sale", price: 980000, beds: 5, baths: 4, sqft: 3500, address: "7529 E. Pecan St. Anaheim, CA 92806", listedBy: "SENDAS Estate Group, Inc.", agent: { name: "Gustavo Calzoni", phone: "(808) 274-0111", avatar: "https://i.pravatar.cc/35?u=gustavo" }, type: "villa", location: { lat: 47.6222, lng: -122.3009 } },
-        { id: 12, image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 11, status: "For sale", price: 450000, beds: 2, baths: 1, sqft: 1100, address: "2118 Thornridge Cir. Syracuse, Connecticut", listedBy: "Quantum Properties", agent: { name: "Craig Herwitz", phone: "(629) 172-0129", avatar: "https://i.pravatar.cc/35?u=craig" }, type: "apartment", location: { lat: 47.5895, lng: -122.3258 } },
-        { id: 13, image: "https://images.pexels.com/photos/276554/pexels-photo-276554.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 9, status: "For rent", price: 3200, beds: 3, baths: 2, sqft: 1400, address: "8584 W. Sherman Dr. Leesburg, VA 20175", listedBy: "Evergreen Estates", agent: { name: "James Sullivan", phone: "(503) 555-0155", avatar: "https://i.pravatar.cc/35?u=james" }, type: "guesthouse", location: { lat: 47.6111, lng: -122.3488 } },
-        { id: 14, image: "https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 21, status: "For sale", price: 620000, beds: 4, baths: 2, sqft: 2300, address: "775 Rolling Green Rd. Pelham, AL 35124", listedBy: "Turja Design Group, Inc.", agent: { name: "Brandon Levin", phone: "(480) 555-0103", avatar: "https://i.pravatar.cc/35?u=brandon" }, type: "house", location: { lat: 47.6288, lng: -122.3288 } },
-        { id: 15, image: "https://images.pexels.com/photos/259751/pexels-photo-259751.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 35, status: "For sale", price: 1500000, beds: 7, baths: 6, sqft: 5000, address: "123 Ocean View Ln. Malibu, CA 90265", listedBy: "Luxury Homes Co.", agent: { name: "Sofia Loren", phone: "(213) 555-0199", avatar: "https://i.pravatar.cc/35?u=sofia" }, type: "villa", location: { lat: 47.6018, lng: -122.3198 } }
+        { id: 3, image: "https://images.pexels.com/photos/209296/pexels-photo-209296.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 17, status: "For sale", price: 778100, beds: 4, baths: 2, sqft: 1090, address: "4140 Parker Rd, New Mexico 31134", listedBy: "Stark Real Estate", agent: { name: "Chance Dorwart", phone: "(209) 009-0104", avatar: "https://i.pravatar.cc/35?u=chance" }, type: "house", location: { lat: 47.6145, lng: -122.3119, selected: true } },
+        { id: 4, image: "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=600", photos: 15, status: "For sale", price: 350241, beds: 3, baths: 3, sqft: 1800, address: "1901 Thornridge Cir. Shiloh, Hawaii", listedBy: "Quantum Properties", agent: { name: "Craig Herwitz", phone: "(629) 172-0129", avatar: "https://i.pravatar.cc/35?u=craig" }, type: "guesthouse", location: { lat: 47.5952, lng: -122.3321 } }
     ];
 
-    // ========= DOM Elements =========
     const gridContainer = document.getElementById("property-grid");
     const propertyCountEl = document.getElementById("property-count");
-    const allNavTabs = document.querySelectorAll(".nav-tab");
+    const navTabs = document.querySelectorAll(".nav-tab");
     const viewToggleBtns = document.querySelectorAll('.view-btn');
     const listingsSection = document.querySelector('.listings-section');
     const mapContainer = document.querySelector('.map-container');
-    const menuToggle = document.querySelector('.menu-toggle');
-    const header = document.querySelector('.header');
     
     let map;
     let markers = [];
 
-    // ========= MAP FUNCTIONS =========
+    // FUNGSI INTI (render, filter, dll. tidak berubah banyak)
     function initMap() {
         map = L.map('map', { zoomControl: false }).setView([47.61, -122.33], 13);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -406,16 +359,29 @@
         L.control.zoom({ position: 'bottomright' }).addTo(map);
     }
     
+    function renderProperties(props) {
+        gridContainer.innerHTML = "";
+        props.forEach(property => {
+            const card = document.createElement("div");
+            card.className = "property-card";
+            card.innerHTML = `
+                <div class="card-image"> <img src="${property.image}" alt="${property.address}"> <div class="photo-count"><i class="fas fa-camera"></i> ${property.photos}</div> <div class="agent-overlay"> <div class="agent-info"> <div class="agent-avatar"><img src="${property.agent.avatar}" alt="${property.agent.name}"></div> <div class="agent-details"> <h4>${property.agent.name}</h4> <p>${property.agent.phone}</p> </div> </div> <i class="fas fa-check-circle"></i> </div> </div>
+                <div class="card-content"> <div class="card-header"> <p class="property-status"><span class="dot"></span> ${property.status}</p> <div class="card-actions"> <i class="far fa-bookmark"></i> <i class="far fa-heart"></i> </div> </div> <h3 class="property-price">$${property.price.toLocaleString()}</h3> <p class="property-address">${property.address}</p> <div class="property-details"> <span><i class="fas fa-bed"></i> ${property.beds} bed</span> <span><i class="fas fa-bath"></i> ${property.baths} bath</span> <span><i class="fas fa-ruler-combined"></i> ${property.sqft} sqft</span> </div> <p class="listed-by">Listed by ${property.listedBy}</p> </div>
+            `;
+            gridContainer.appendChild(card);
+        });
+        propertyCountEl.textContent = props.length;
+    }
+
     function renderMapMarkers(props) {
         markers.forEach(marker => map.removeLayer(marker));
         markers = [];
         props.forEach(property => {
-            const priceText = property.status === 'For rent' ? `$${property.price.toLocaleString()}/mo` : `$${property.price.toLocaleString()}`;
             const dotIcon = L.divIcon({ className: 'map-marker-dot', iconSize: [14, 14], iconAnchor: [7, 7] });
             const marker = L.marker([property.location.lat, property.location.lng], { icon: dotIcon }).addTo(map);
-            marker.bindTooltip(priceText, { permanent: true, direction: 'top', offset: [0, -10], className: 'price-tooltip' });
+            marker.bindTooltip(`$${property.price.toLocaleString()}`, { permanent: true, direction: 'top', offset: [0, -10], className: 'price-tooltip' });
             const popupContent = `
-                <div class="map-popup-card"> <div class="image-container"><img src="${property.image}" alt="${property.address}"></div> <div class="info"> <div class="header"> <p class="status"><span class="dot"></span> ${property.status}</p> <i class="far fa-heart heart-icon"></i> </div> <div> <h3 class="price">${priceText}</h3> <div class="details"> <span><i class="fas fa-bed"></i> ${property.beds} bed</span> <span><i class="fas fa-bath"></i> ${property.baths} bath</span> <span><i class="fas fa-ruler-combined"></i> ${property.sqft} sqft</span> </div> <p class="address">${property.address}</p> </div> </div> </div>
+                <div class="map-popup-card"> <div class="image-container"><img src="${property.image}" alt="${property.address}"></div> <div class="info"> <div class="header"> <p class="status"><span class="dot"></span> ${property.status}</p> <i class="far fa-heart heart-icon"></i> </div> <div> <h3 class="price">$${property.price.toLocaleString()}</h3> <div class="details"> <span><i class="fas fa-bed"></i> ${property.beds} bed</span> <span><i class="fas fa-bath"></i> ${property.baths} bath</span> <span><i class="fas fa-ruler-combined"></i> ${property.sqft} sqft</span> </div> <p class="address">${property.address}</p> </div> </div> </div>
             `;
             marker.bindPopup(popupContent, { offset: L.point(0, -10) });
             if(property.selected) marker.openPopup();
@@ -423,100 +389,63 @@
         });
     }
 
-    // ========= UI RENDERING FUNCTIONS =========
-    function renderProperties(props) {
-        gridContainer.innerHTML = "";
-        props.forEach(property => {
-            const card = document.createElement("div");
-            card.className = "property-card";
-            const priceText = property.status === 'For rent' ? `$${property.price.toLocaleString()}/mo` : `$${property.price.toLocaleString()}`;
-            card.innerHTML = `
-                <div class="card-image"> <img src="${property.image}" alt="${property.address}"> <div class="photo-count"><i class="fas fa-camera"></i> ${property.photos}</div> <div class="agent-overlay"> <div class="agent-info"> <div class="agent-avatar"><img src="${property.agent.avatar}" alt="${property.agent.name}"></div> <div class="agent-details"> <h4>${property.agent.name}</h4> <p>${property.agent.phone}</p> </div> </div> <i class="fas fa-check-circle"></i> </div> </div>
-                <div class="card-content"> <div class="card-header"> <p class="property-status"><span class="dot"></span> ${property.status}</p> <div class="card-actions"> <i class="far fa-bookmark"></i> <i class="far fa-heart"></i> </div> </div> <h3 class="property-price">${priceText}</h3> <p class="property-address">${property.address}</p> <div class="property-details"> <span><i class="fas fa-bed"></i> ${property.beds} bed</span> <span><i class="fas fa-bath"></i> ${property.baths} bath</span> <span><i class="fas fa-ruler-combined"></i> ${property.sqft} sqft</span> </div> <p class="listed-by">Listed by ${property.listedBy}</p> </div>
-            `;
-            gridContainer.appendChild(card);
-        });
-        propertyCountEl.textContent = props.length;
-    }
-
     function filterProperties() {
-        const activeTab = document.querySelector(".nav-tabs .nav-tab.active");
-        let filteredProperties = properties;
-        if(activeTab) {
-            const type = activeTab.getAttribute("data-type");
-            filteredProperties = properties.filter(p => p.type === type);
-        }
+        const activeTab = document.querySelector(".nav-tab.active");
+        const type = activeTab ? activeTab.getAttribute("data-type") : "house"; // Default
+        const filteredProperties = properties.filter(p => p.type === type);
         renderProperties(filteredProperties);
-        if(map) { // Pastikan map sudah diinisialisasi
-            renderMapMarkers(filteredProperties);
-        }
+        renderMapMarkers(filteredProperties);
     }
     
-    // ========= RESPONSIVE LAYOUT LOGIC =========
+    // ===== LOGIKA BARU UNTUK TAMPILAN RESPONSIVE =====
     function updateLayout() {
-      const activeView = document.querySelector('.view-btn.active')?.dataset.view;
+      const activeView = document.querySelector('.view-btn.active').dataset.view;
       const screenWidth = window.innerWidth;
 
       if (screenWidth <= 992) {
+        // Pada layar kecil, hanya satu view yang bisa tampil
         if (activeView === 'map') {
           mapContainer.classList.remove('hidden');
           listingsSection.classList.add('hidden');
-          if(map) map.invalidateSize(); // Penting untuk refresh ukuran peta
-        } else { // 'grid' or default
+          // Refresh ukuran peta agar tidak rusak
+          if(map) map.invalidateSize();
+        } else { // 'grid'
           mapContainer.classList.add('hidden');
           listingsSection.classList.remove('hidden');
         }
       } else {
-        // Pada layar besar, selalu tampilkan keduanya
+        // Pada layar besar, tampilkan keduanya
         mapContainer.classList.remove('hidden');
         listingsSection.classList.remove('hidden');
         if(map) map.invalidateSize();
       }
     }
 
-    // ========= EVENT LISTENERS =========
-    allNavTabs.forEach(tab => {
-        tab.addEventListener("click", (e) => {
-            const clickedType = e.currentTarget.getAttribute("data-type");
-            
-            // Hapus 'active' dari semua tab (desktop & mobile)
-            allNavTabs.forEach(t => t.classList.remove("active"));
-
-            // Tambahkan 'active' ke tab yang diklik dan pasangannya
-            document.querySelectorAll(`.nav-tab[data-type="${clickedType}"]`).forEach(t => t.classList.add("active"));
-            
+    navTabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            navTabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
             filterProperties();
-
-            // Tutup menu mobile jika terbuka
-            if (header.classList.contains('nav-open')) {
-                header.classList.remove('nav-open');
-            }
         });
     });
 
     viewToggleBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        if(btn.classList.contains('active')) return; // Jangan lakukan apa-apa jika sudah aktif
         viewToggleBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         updateLayout();
       });
     });
 
-    // Listener untuk ikon hamburger
-    menuToggle.addEventListener('click', () => {
-        header.classList.toggle('nav-open');
-    });
-
     // Panggil saat window di-resize
     window.addEventListener('resize', updateLayout);
 
-    // ========= INITIALIZATION =========
+    // Inisialisasi awal
     document.addEventListener("DOMContentLoaded", () => {
         initMap();
         filterProperties();
-        // Set view awal berdasarkan state tombol & ukuran layar
-        updateLayout(); 
+        // Set view awal berdasarkan state tombol
+        updateLayout();
     });
   </script>
 </body>
