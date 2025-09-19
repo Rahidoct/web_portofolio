@@ -20,7 +20,8 @@
     <!-- Loading Screen -->
     <div class="loading" id="loading">
         <div class="loader"></div>
-        <div class="loading-text">LOADING PORTFOLIO...</div>
+        <div class="loading-text">INITIALIZING SYSTEM</div>
+        <div class="loading-subtext">Loading portfolio assets...</div>
     </div>
 
     <!-- Audio Controls -->
@@ -34,9 +35,11 @@
     <div class="modal" id="infoModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">&times;</button>
-            <h2 class="modal-title" id="modalTitle">Information</h2>
-            <div class="modal-body" id="modalBody">
-                <!-- Content will be inserted here -->
+            <div id="modalContentWrapper">
+                <h2 class="modal-title" id="modalTitle">Information</h2>
+                <div class="modal-body" id="modalBody">
+                    <!-- Konten akan dimasukkan di sini oleh JavaScript -->
+                </div>
             </div>
         </div>
     </div>
@@ -47,22 +50,22 @@
             <h2 class="modal-title">SUPPORT MY WORK</h2>
             <p>Pilih metode donasi untuk mendukung pengembangan proyek ini</p>
             <div class="donate-options">
-                <div class="donate-option" onclick="selectDonation('paypal')">
+                <button class="donate-option" data-donation-type="paypal">
                     <div class="donate-icon">💳</div>
                     <div>PayPal</div>
-                </div>
-                <div class="donate-option" onclick="selectDonation('trakteer')">
+                </button>
+                <button class="donate-option" data-donation-type="trakteer">
                     <div class="donate-icon">☕</div>
                     <div>Trakteer</div>
-                </div>
-                <div class="donate-option" onclick="selectDonation('saweria')">
+                </button>
+                <button class="donate-option" data-donation-type="saweria">
                     <div class="donate-icon">💰</div>
                     <div>Saweria</div>
-                </div>
+                </button>
             </div>
             <div id="donateDetails" style="display: none; margin-top: 1.5rem;">
                 <p id="donateMessage"></p>
-                <button class="back-btn" onclick="window.open(donateLink, '_blank')">Buka Link</button>
+                <button class="back-btn" id="donateLinkBtn">Buka Link</button>
             </div>
         </div>
     </div>
@@ -73,7 +76,7 @@
         <span id="toastMessage">Action completed successfully!</span>
     </div>
 
-    <!-- ==================== PENAMBAHAN: PAGE WRAPPER ==================== -->
+    <!-- ==================== PAGE WRAPPER ==================== -->
     <div class="page-wrapper">
         <div class="inventory-container">
             <!-- Header -->
@@ -81,12 +84,9 @@
                 <h1 class="inventory-title">&lt;/> RAHMAT HIDAYAT</h1>
                 <div class="header-controls">
                     <a href="#donate" class="back-btn" onclick="showDonateModal(event)">Donate →</a>
-
-                    <!-- ==================== PENAMBAHAN: Tombol Theme Toggle ==================== -->
                     <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
                         <i class="fas fa-sun"></i>
                     </button>
-                    <!-- PENAMBAHAN: Tombol Hamburger -->
                     <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Navigation">
                         <span class="bar"></span>
                         <span class="bar"></span>
@@ -100,7 +100,7 @@
                 <div class="health-bar">
                     <span class="health-label">PROJECT</span>
                     <div class="health-progress">
-                        <div class="health-fill" data-width="50%"></div>
+                        <div class="health-fill" data-width="85%"></div>
                     </div>
                     <span class="health-value">100</span>
                 </div>
@@ -108,23 +108,23 @@
 
             <!-- Navigation Tabs -->
             <div class="nav-tabs">
-                <div class="nav-tab active" onclick="showSection('home', this)">HOME</div>
-                <div class="nav-tab" onclick="showSection('portfolio', this)">PORTFOLIO</div>
-                <div class="nav-tab" onclick="showSection('skills', this)">SKILLS</div>
-                <div class="nav-tab" onclick="showSection('experience', this)">EXPERIENCE</div>
-                <div class="nav-tab" onclick="showSection('contact', this)">CONTACT</div>
+                <button class="nav-tab active" onclick="showSection('home', this)">HOME</button>
+                <button class="nav-tab" onclick="showSection('portfolio', this)">PORTFOLIO</button>
+                <button class="nav-tab" onclick="showSection('skills', this)">SKILLS</button>
+                <button class="nav-tab" onclick="showSection('experience', this)">EXPERIENCE</button>
+                <button class="nav-tab" onclick="showSection('contact', this)">CONTACT</button>
             </div>
 
             <!-- Main Content -->
             <div class="main-content">
-                <!-- Left Panel: Switches between Inventory and Info Cards -->
+                <!-- Left Panel -->
                 <div class="left-panel">
                     
                     <!-- Home Section Card -->
                     <div class="content-section active" id="home-section">
                         <div class="section-content">
                             <h2 class="section-title">DEVELOPER PROFILE</h2>
-                            <p style="font-size: 1.1rem; line-height: 1.8; text-align: center;">
+                            <p class="profile-description">
                                 In a world where technology and humanity converge, I specialize in creating digital experiences that transcend the boundaries of conventional web development. My expertise lies in crafting immersive, futuristic interfaces that don't just display information—they create connections between users and the digital realm.
                             </p>
                         </div>
@@ -146,115 +146,115 @@
                     <!-- Inventory Grid -->
                     <div class="inventory-section" id="inventoryGrid">
                         <!-- Portfolio Items -->
-                        <div class="inventory-slot slot-rarity-rare equipped" data-type="portfolio" onclick="showProjectDetails('landing')">
+                        <button class="inventory-slot slot-rarity-rare equipped" data-type="portfolio" data-project-type="landing">
                             <div class="slot-icon">🌐</div>
                             <div class="slot-title">Landing Page</div>
                             <div class="tooltip">Desain Halaman Muka yang Responsif & Menarik</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-epic equipped" data-type="portfolio" onclick="showProjectDetails('ecommerce')">
+                        </button>
+                        <button class="inventory-slot slot-rarity-epic equipped" data-type="portfolio" data-project-type="ecommerce">
                             <div class="slot-icon">🛒</div>
                             <div class="slot-title">E-Commerce</div>
                             <div class="tooltip">Platform Toko Online Lengkap dengan Pembayaran</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-epic equipped" data-type="portfolio" onclick="showProjectDetails('admin')">
+                        </button>
+                        <button class="inventory-slot slot-rarity-epic equipped" data-type="portfolio" data-project-type="admin">
                             <div class="slot-icon">📊</div>
                             <div class="slot-title">Admin Panel</div>
                             <div class="tooltip">Dashboard Manajemen Data yang Intuitif</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-legendary equipped" data-type="portfolio" onclick="showProjectDetails('pos')">
+                        </button>
+                        <button class="inventory-slot slot-rarity-legendary equipped" data-type="portfolio" data-project-type="pos">
                             <div class="slot-icon">📠</div>
                             <div class="slot-title">Point of Sale</div>
                             <div class="tooltip">Sistem Kasir Berbasis Web Real-time</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-rare equipped" data-type="portfolio" onclick="showProjectDetails('portfolio')">
+                        </button>
+                        <button class="inventory-slot slot-rarity-rare equipped" data-type="portfolio" data-project-type="portfolio">
                             <div class="slot-icon">🎨</div>
                             <div class="slot-title">Portfolio</div>
                             <div class="tooltip">Website Portofolio Kreatif & Interaktif</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-epic equipped" data-type="portfolio" onclick="showProjectDetails('api')">
+                        </button>
+                        <button class="inventory-slot slot-rarity-epic equipped" data-type="portfolio" data-project-type="api">
                             <div class="slot-icon">⚡</div>
                             <div class="slot-title">API Server</div>
                             <div class="tooltip">REST API Cepat & Aman untuk Aplikasi</div>
-                        </div>
+                        </button>
 
-                        <!-- Skills Items -->
-                        <div class="inventory-slot slot-rarity-common equipped" data-type="skills">
+                        <!-- Skills Items with data attributes -->
+                        <button class="inventory-slot slot-rarity-common equipped" data-type="skills" data-level="Expert" data-proficiency="95" data-usage="98">
                             <div class="slot-icon"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/html5-colored.svg" width="36" height="36" alt="HTML5" /></div>
                             <div class="slot-title">HTML</div>
-                            <div class="tooltip">Struktur Fundamental Web</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-common equipped" data-type="skills">
+                            <div class="tooltip">Bahasa markup standar untuk membuat halaman web dan aplikasi web. Fondasi dari semua situs.</div>
+                        </button>
+                        <button class="inventory-slot slot-rarity-common equipped" data-type="skills" data-level="Expert" data-proficiency="90" data-usage="98">
                             <div class="slot-icon"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/css3-colored.svg" width="36" height="36" alt="CSS3" /></div>
                             <div class="slot-title">CSS</div>
-                            <div class="tooltip">Styling & Desain Visual Web</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-uncommon equipped" data-type="skills">
+                            <div class="tooltip">Bahasa stylesheet yang digunakan untuk mendeskripsikan presentasi dokumen yang ditulis dalam bahasa markup seperti HTML.</div>
+                        </button>
+                        <button class="inventory-slot slot-rarity-uncommon equipped" data-type="skills" data-level="Advanced" data-proficiency="85" data-usage="95">
                             <div class="slot-icon"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/javascript-colored.svg" width="36" height="36" alt="JavaScript" /></div>
                             <div class="slot-title">JavaScript</div>
-                            <div class="tooltip">Logika Interaktif untuk Web</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-epic equipped" data-type="skills">
+                            <div class="tooltip">Bahasa pemrograman tingkat tinggi yang memungkinkan halaman web interaktif. Esensial untuk pengembangan web modern.</div>
+                        </button>
+                        <button class="inventory-slot slot-rarity-epic equipped" data-type="skills" data-level="Advanced" data-proficiency="88" data-usage="80">
                             <div class="slot-icon"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/react-colored.svg" width="36" height="36" alt="React" /></div>
                             <div class="slot-title">React</div>
-                            <div class="tooltip">Library Frontend untuk UI Dinamis</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-rare equipped" data-type="skills">
+                            <div class="tooltip">Pustaka JavaScript front-end untuk membangun antarmuka pengguna berdasarkan komponen UI.</div>
+                        </button>
+                        <button class="inventory-slot slot-rarity-rare equipped" data-type="skills" data-level="Advanced" data-proficiency="82" data-usage="75">
                             <div class="slot-icon"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/nodejs-colored.svg" width="36" height="36" alt="Node.js" /></div>
                             <div class="slot-title">Node JS</div>
-                            <div class="tooltip">Runtime JavaScript Sisi Server</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-uncommon equipped" data-type="skills">
+                            <div class="tooltip">Lingkungan runtime JavaScript sisi server yang memungkinkan eksekusi kode JavaScript di luar browser.</div>
+                        </button>
+                        <button class="inventory-slot slot-rarity-uncommon equipped" data-type="skills" data-level="Intermediate" data-proficiency="75" data-usage="60">
                             <div class="slot-icon"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/php-colored.svg" width="36" height="36" alt="PHP" /></div>
                             <div class="slot-title">PHP</div>
-                            <div class="tooltip">Bahasa Pemrograman Sisi Server</div>
-                        </div>
-                         <div class="inventory-slot slot-rarity-uncommon equipped" data-type="skills">
+                            <div class="tooltip">Bahasa skrip sisi server yang populer, dirancang khusus untuk pengembangan web.</div>
+                        </button>
+                         <button class="inventory-slot slot-rarity-uncommon equipped" data-type="skills" data-level="Advanced" data-proficiency="80" data-usage="85">
                             <div class="slot-icon"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/mysql-colored.svg" width="36" height="36" alt="MySQL" /></div>
                             <div class="slot-title">MySQL</div>
-                            <div class="tooltip">Manajemen Database Relasional</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-rare equipped" data-type="skills">
-                            <div class="slot-icon"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/git-colored.svg" width="36" height="36" alt="Laravel" /></div>
+                            <div class="tooltip">Sistem manajemen basis data relasional open-source yang banyak digunakan dalam aplikasi web.</div>
+                        </button>
+                        <button class="inventory-slot slot-rarity-rare equipped" data-type="skills" data-level="Advanced" data-proficiency="85" data-usage="95">
+                            <div class="slot-icon"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/git-colored.svg" width="36" height="36" alt="Git" /></div>
                             <div class="slot-title">Git</div>
-                            <div class="tooltip">Sistem Kontrol Versi Terdistribusi</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-epic equipped" data-type="skills">
+                            <div class="tooltip">Sistem kontrol versi terdistribusi untuk melacak perubahan dalam kode sumber selama pengembangan perangkat lunak.</div>
+                        </button>
+                        <button class="inventory-slot slot-rarity-epic equipped" data-type="skills" data-level="Advanced" data-proficiency="85" data-usage="70">
                             <div class="slot-icon"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/laravel-colored.svg" width="36" height="36" alt="Laravel" /></div>
                             <div class="slot-title">Laravel</div>
-                            <div class="tooltip">Framework PHP untuk Aplikasi Web</div>
-                        </div>
+                            <div class="tooltip">Framework aplikasi web PHP dengan sintaks yang ekspresif dan elegan, mempercepat pengembangan.</div>
+                        </button>
 
-                        <!-- Experience Items -->
-                        <div class="inventory-slot slot-rarity-legendary equipped" data-type="experience">
+                        <!-- Experience Items with data attributes -->
+                        <button class="inventory-slot slot-rarity-legendary equipped" data-type="experience" data-level="4 Thn" data-proficiency="90" data-usage="95">
                             <div class="slot-icon">🚀</div>
                             <div class="slot-title">Fullstack</div>
-                            <div class="tooltip">Pengembangan End-to-End (Frontend & Backend)</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-epic equipped" data-type="experience">
+                            <div class="tooltip">Mengembangkan aplikasi secara end-to-end, mulai dari antarmuka pengguna (Frontend) hingga logika server dan database (Backend).</div>
+                        </button>
+                        <button class="inventory-slot slot-rarity-epic equipped" data-type="experience" data-level="2 Thn" data-proficiency="80" data-usage="60">
                             <div class="slot-icon">📱</div>
                             <div class="slot-title">Mobile Dev</div>
-                            <div class="tooltip">Pengembangan Aplikasi untuk Perangkat Mobile</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-rare equipped" data-type="experience">
+                            <div class="tooltip">Membangun aplikasi untuk perangkat seluler, berfokus pada pengalaman pengguna yang lancar di Android dan iOS.</div>
+                        </button>
+                        <button class="inventory-slot slot-rarity-rare equipped" data-type="experience" data-level="1 Thn" data-proficiency="65" data-usage="30">
                             <div class="slot-icon">🧠</div>
                             <div class="slot-title">Machine Learning</div>
-                            <div class="tooltip">Implementasi Model Kecerdasan Buatan</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-rare equipped" data-type="experience">
+                            <div class="tooltip">Mengimplementasikan model kecerdasan buatan dasar dan integrasi API untuk fitur-fitur cerdas dalam aplikasi.</div>
+                        </button>
+                        <button class="inventory-slot slot-rarity-rare equipped" data-type="experience" data-level="Hobi" data-proficiency="75" data-usage="20">
                             <div class="slot-icon">🤖</div>
                             <div class="slot-title">Android Tweaking</div>
-                            <div class="tooltip">Modifikasi & Optimasi Sistem Operasi Android</div>
-                        </div>
-                         <div class="inventory-slot slot-rarity-uncommon equipped" data-type="experience">
+                            <div class="tooltip">Melakukan modifikasi dan optimasi tingkat lanjut pada sistem operasi Android, termasuk custom ROM dan kernel.</div>
+                        </button>
+                         <button class="inventory-slot slot-rarity-uncommon equipped" data-type="experience" data-level="Pribadi" data-proficiency="80" data-usage="100">
                             <div class="slot-icon">💰</div>
                             <div class="slot-title">Money Management</div>
-                            <div class="tooltip">Keterampilan Manajemen Keuangan Pribadi</div>
-                        </div>
-                        <div class="inventory-slot slot-rarity-uncommon equipped" data-type="experience">
+                            <div class="tooltip">Keterampilan dalam mengelola keuangan pribadi, termasuk budgeting, tabungan, dan perencanaan keuangan.</div>
+                        </button>
+                        <button class="inventory-slot slot-rarity-uncommon equipped" data-type="experience" data-level="Pribadi" data-proficiency="70" data-usage="100">
                             <div class="slot-icon">📈</div>
                             <div class="slot-title">Investor Retail</div>
-                            <div class="tooltip">Investasi di Pasar Modal sebagai Individu</div>
-                        </div>
+                            <div class="tooltip">Berpartisipasi dalam investasi di pasar modal sebagai investor individu, menganalisis saham dan aset lainnya.</div>
+                        </button>
                         
                         <!-- Locked Slots -->
                         <div class="inventory-slot slot-locked"><div class="slot-icon">🔒</div></div>
@@ -269,22 +269,107 @@
                     <div class="character-avatar">
                         👨‍💻
                         <!-- Equipment Slots -->
-                        <div class="equipment-slot equipment-helmet equipped" onclick="showInfo('education')"><span class="equipment-icon">🎓</span><div class="tooltip">Education & Certifications</div></div>
-                        <div class="equipment-slot equipment-chest equipped" onclick="showInfo('experience')"><span class="equipment-icon">💼</span><div class="tooltip">Work Experience</div></div>
-                        <div class="equipment-slot equipment-legs equipped" onclick="showInfo('achievements')"><span class="equipment-icon">🏆</span><div class="tooltip">Achievements & Awards</div></div>
-                        <div class="equipment-slot equipment-boots equipped" onclick="showInfo('hobbies')"><span class="equipment-icon">🎯</span><div class="tooltip">Hobbies & Interests</div></div>
-                        <div class="equipment-slot equipment-weapon equipped" onclick="showInfo('specialty')"><span class="equipment-icon">⚔️</span><div class="tooltip">Main Specialization</div></div>
+                        <button class="equipment-slot equipment-helmet equipped" data-info-type="education"><span class="equipment-icon">🎓</span><div class="tooltip">Education & Certifications</div></button>
+                        <button class="equipment-slot equipment-chest equipped" data-info-type="experience"><span class="equipment-icon">💼</span><div class="tooltip">Work Experience</div></button>
+                        <button class="equipment-slot equipment-legs equipped" data-info-type="achievements"><span class="equipment-icon">🏆</span><div class="tooltip">Achievements & Awards</div></button>
+                        <button class="equipment-slot equipment-boots equipped" data-info-type="hobbies"><span class="equipment-icon">🎯</span><div class="tooltip">Hobbies & Interests</div></button>
+                        <button class="equipment-slot equipment-weapon equipped" data-info-type="specialty"><span class="equipment-icon">⚔️</span><div class="tooltip">Main Specialization</div></button>
                     </div>
                 </div>
             </div>
             
-            <!-- ==================== PENAMBAHAN: FOOTER ==================== -->
+            <!-- ==================== FOOTER ==================== -->
             <footer class="main-footer">
                 &copy; 2025 Rahmat Hidayat. All rights reserved.
             </footer>
         </div>
     </div>
 
+    <!-- ===================================================================
+        MODAL CONTENT TEMPLATES
+    =================================================================== -->
+    <!-- Info Templates -->
+    <template id="template-info-education">
+        <h2 class="modal-title">EDUCATION & CERTIFICATIONS</h2>
+        <div class="modal-body"><ul><li>S1 Informatika - Universitas Teknologi</li><li>AWS Certified Developer</li><li>Google Cloud Professional</li></ul></div>
+    </template>
+    <template id="template-info-experience">
+        <h2 class="modal-title">WORK EXPERIENCE</h2>
+        <div class="modal-body"><ul><li>4+ Years Development Experience</li><li>50+ Completed Projects</li><li>Agile/Scrum Methodology</li></ul></div>
+    </template>
+    <template id="template-info-achievements">
+        <h2 class="modal-title">ACHIEVEMENTS & AWARDS</h2>
+        <div class="modal-body"><ul><li>Best Developer Award 2023</li><li>Hackathon Winner</li><li>Open Source Contributor</li></ul></div>
+    </template>
+    <template id="template-info-hobbies">
+        <h2 class="modal-title">HOBBIES & INTERESTS</h2>
+        <div class="modal-body"><ul><li>Game Development</li><li>Photography</li><li>Tech Blogging</li></ul></div>
+    </template>
+    <template id="template-info-specialty">
+        <h2 class="modal-title">MAIN SPECIALIZATION</h2>
+        <div class="modal-body"><ul><li>Full Stack Development</li><li>Cloud Architecture</li><li>Performance Optimization</li></ul></div>
+    </template>
+
+    <!-- Project Templates -->
+    <template id="template-project-landing">
+        <h2 class="modal-title">LANDING PAGE</h2>
+        <div class="modal-body"><p>Membuat halaman muka yang menarik secara visual dengan fokus pada konversi dan pengalaman pengguna.</p><ul><li>Desain Responsif</li><li>Animasi Halus</li><li>Optimasi Kecepatan</li></ul></div>
+    </template>
+    <template id="template-project-ecommerce">
+        <h2 class="modal-title">E-COMMERCE PLATFORM</h2>
+        <div class="modal-body"><p>Solusi e-commerce lengkap dengan React, Node.js, dan MongoDB.</p><ul><li>Otentikasi Pengguna</li><li>Integrasi Gerbang Pembayaran</li><li>Dasbor Admin</li></ul></div>
+    </template>
+    <template id="template-project-admin">
+        <h2 class="modal-title">ADMIN PANEL</h2>
+        <div class="modal-body"><p>Panel admin yang kuat untuk manajemen data, pengguna, dan konten.</p><ul><li>Visualisasi Data</li><li>Manajemen CRUD</li><li>Hak Akses Pengguna</li></ul></div>
+    </template>
+    <template id="template-project-pos">
+        <h2 class="modal-title">POINT OF SALE (POS)</h2>
+        <div class="modal-body"><p>Aplikasi kasir berbasis web untuk manajemen penjualan, inventaris, dan laporan.</p><ul><li>Transaksi Real-time</li><li>Manajemen Stok</li><li>Laporan Penjualan</li></ul></div>
+    </template>
+    <template id="template-project-portfolio">
+        <h2 class="modal-title">WEBSITE PORTFOLIO</h2>
+        <div class="modal-body"><p>Portofolio interaktif dengan UI yang terinspirasi dari game.</p><ul><li>Animasi Kustom</li><li>Desain Responsif</li><li>SEO Friendly</li></ul></div>
+    </template>
+    <template id="template-project-api">
+        <h2 class="modal-title">API SERVER</h2>
+        <div class="modal-body"><p>Server RESTful API berkinerja tinggi menggunakan Express.js.</p><ul><li>Otentikasi Berbasis JWT</li><li>Operasi CRUD</li><li>Dokumentasi API Rinci</li></ul></div>
+    </template>
+
+    <!-- SKILL / EXPERIENCE CARD TEMPLATE -->
+    <template id="template-skill-card">
+        <div class="skill-card">
+            <div class="skill-card-inner">
+                <div class="skill-card-header"><h2 class="skill-card-name text-glow">[SKILL NAME]</h2></div>
+                <div class="skill-card-content">
+                    <div class="skill-card-portrait">
+                        <div class="skill-card-sprite">[ICON]</div>
+                        <div class="skill-card-level-badge">[LEVEL]</div>
+                    </div>
+                    <div class="skill-card-stats-section">
+                        <div class="skill-card-stat-bar-container">
+                            <div class="skill-card-stat-icon proficiency-icon">💪</div>
+                            <div class="skill-card-stat-bar">
+                                <div class="skill-card-stat-fill proficiency-fill"></div>
+                                <div class="skill-card-stat-text">[PROFICIENCY]</div>
+                            </div>
+                        </div>
+                        <div class="skill-card-stat-bar-container">
+                            <div class="skill-card-stat-icon usage-icon">🔥</div>
+                            <div class="skill-card-stat-bar">
+                                <div class="skill-card-stat-fill usage-fill"></div>
+                                <div class="skill-card-stat-text">[USAGE]</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-card-description-section">
+                        <div class="skill-card-description-title">Description</div>
+                        <div class="skill-card-description-text">[DESCRIPTION]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
     <script src="../../../assets/js/portofolio/game/demo-1.js"></script>
 </body>
 </html>
