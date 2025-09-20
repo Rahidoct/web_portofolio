@@ -41,6 +41,18 @@
         --rarity-rare: #3b82f6;
         --rarity-epic: #8b5cf6;
         --rarity-legendary: #f59e0b;
+        
+        /* Variabel untuk Cyber Section agar mudah di-override */
+        --cyber-bg: #0A0A0A;
+        --cyber-border-color: var(--rarity-rare);
+        --cyber-accent-color: var(--rarity-rare);
+        --cyber-shadow-color: var(--shadow-color);
+        --cyber-text-primary: var(--text-primary);
+        --cyber-text-secondary: var(--text-secondary);
+        --cyber-avatar-bg: radial-gradient(circle, var(--shadow-color) 0%, transparent 70%);
+        --cyber-port-hover-bg: var(--shadow-color);
+        --cyber-port-action-bg: var(--rarity-rare);
+        --cyber-port-action-text: #0A0A0A;
         }
 
         html.light-theme {
@@ -59,7 +71,7 @@
         --shadow-color: rgba(0, 115, 230, 0.4);
         --grid-bg-color: rgba(200, 210, 220, 0.7);
         
-        /* [KODE BARU] Penyesuaian Light Theme untuk Cyber Section */
+        /* Penyesuaian Light Theme untuk Cyber Section */
         --cyber-bg: #ffffff;
         --cyber-border-color: var(--text-accent);
         --cyber-accent-color: var(--text-accent);
@@ -72,18 +84,12 @@
         --cyber-port-action-text: #ffffff;
         }
         
-        /* [KODE BARU] Variabel untuk Cyber Section agar mudah di-override */
-        :root {
-        --cyber-bg: #0A0A0A;
-        --cyber-border-color: var(--rarity-rare);
-        --cyber-accent-color: var(--rarity-rare);
-        --cyber-shadow-color: var(--shadow-color);
-        --cyber-text-primary: var(--text-primary);
-        --cyber-text-secondary: var(--text-secondary);
-        --cyber-avatar-bg: radial-gradient(circle, var(--shadow-color) 0%, transparent 70%);
-        --cyber-port-hover-bg: var(--shadow-color);
-        --cyber-port-action-bg: var(--rarity-rare);
-        --cyber-port-action-text: #0A0A0A;
+        /* Penyesuaian Warna Modal untuk Keterbacaan di Light Mode */
+        html.light-theme .project-card-description-text,
+        html.light-theme .skill-card-description-text {
+            background: rgba(0, 0, 0, 0.05); 
+            color: var(--text-secondary);      
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.08); 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -103,7 +109,7 @@
         .loading-subtext { font-family: var(--font-primary); color: var(--text-secondary); margin-top: var(--gap-sm); font-size: 0.9rem; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-        .inventory-container { width: 100%; background: var(--bg-secondary); border-radius: var(--radius-lg); border: var(--border-width) solid var(--border-color); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); opacity: 0; transform: translateY(20px); animation: containerAppear 1s forwards 0.5s; display: flex; flex-direction: column; flex: 1; }
+        .inventory-container { width: 100%; background: var(--bg-secondary); box-shadow: 0 0 50px var(--cyber-shadow-color); border-radius: var(--radius-lg); border: var(--border-width) solid var(--border-color); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); opacity: 0; transform: translateY(20px); animation: containerAppear 1s forwards 0.5s; display: flex; flex-direction: column; flex: 1; }
         @keyframes containerAppear { to { transform: translateY(0); opacity: 1; } }
         .inventory-header { display: flex; justify-content: space-between; align-items: center; padding: var(--padding-md) var(--padding-lg); border-bottom: var(--border-width) solid var(--border-color); transition: padding 0.3s ease, flex-direction 0.3s ease; }
         .inventory-title { font-family: var(--font-secondary); font-size: 1.8rem; font-weight: 900; letter-spacing: 3px; text-shadow: 0 0 20px var(--shadow-color); transition: font-size 0.3s ease; }
@@ -122,7 +128,7 @@
         .hamburger-btn .bar { display: block; width: 100%; height: 3px; background-color: var(--text-primary); border-radius: 2px; transition: all 0.3s ease-in-out; }
         .hamburger-btn.open .bar:nth-child(1) { transform: translateY(10.5px) rotate(45deg); } .hamburger-btn.open .bar:nth-child(2) { opacity: 0; } .hamburger-btn.open .bar:nth-child(3) { transform: translateY(-10.5px) rotate(-45deg); }
         .nav-tabs { display: flex; padding: 0 var(--padding-lg); border-bottom: var(--border-width) solid var(--border-color); overflow-x: auto; }
-        .nav-tab { color: var(--text-secondary); padding: var(--gap-md) var(--padding-lg); cursor: pointer; font-family: var(--font-secondary); font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; border-bottom: 3px solid transparent; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+        .nav-tab { color: var(--text-secondary); padding: var(--gap-md) var(--padding-lg); cursor: pointer; font-family: var(--font-secondary); font-weight: 600; font-size: 0.8rem; transition: all 0.3s ease; border-bottom: 3px solid transparent; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
         .nav-tab.active, .nav-tab:hover { color: var(--text-accent); border-bottom-color: var(--text-accent); }
         .main-content { display: grid; grid-template-columns: 1fr 350px; gap: var(--gap-lg); padding: var(--padding-lg); flex: 1; overflow-y: auto; }
         .inventory-section { display: none; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: var(--gap-md); height: fit-content; }
@@ -191,14 +197,27 @@
         .project-card-portrait, .skill-card-portrait { background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.1)); border: 2px solid var(--border-color); box-shadow: inset 0 0 15px rgba(0,0,0,0.6); width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; font-size: 4rem; transition: transform 0.3s ease, border-color 0.3s ease; }
         .project-card-portrait:hover, .skill-card-portrait:hover { transform: scale(1.03); border-color: var(--card-accent-color); }
         .skill-card-sprite img, .project-card-portrait > * { filter: drop-shadow(0 0 8px rgba(255,255,255,0.7)); }
+        .skill-card-sprite img { width: 60px; height: 60px; }
         .project-card-category-badge, .skill-card-level-badge { position: absolute; bottom: 0; left: 0; font-size: 0.8rem; font-weight: bold; padding: 4px 10px; border-radius: 0 8px 0 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
         .project-card-category-badge { background: var(--text-accent); color: var(--bg-primary); }
         .skill-card-level-badge { background: linear-gradient(45deg, #ffd700, #ffed4a); color: #2c1810; border-top: 2px solid #8b4513; border-right: 2px solid #8b4513; }
         .project-card-subtitle { font-size: 1.1rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        .project-card-tech { font-size: 0.9rem; color: var(--text-primary); line-height: 1.5; }
+        .project-card-tech { font-size: 0.9rem; line-height: 1.5; color: var(--text-primary); }
         .project-card-tech strong { color: var(--text-accent); font-weight: 700; }
         .project-card-actions { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 10px; }
-        .project-card-description-text, .skill-card-description-text { background: rgba(0,0,0,0.25); padding: 15px; border-radius: 8px; border: none; border-top: 1px solid var(--border-color); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary); grid-column: 1 / -1; }
+        .project-card-description-text, .skill-card-description-text { 
+            background: var(--bg-interactive);
+            padding: 15px; 
+            border-radius: 8px; 
+            border: 2px solid var(--border-color);
+            border-top: 1px solid var(--border-color); 
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+            font-size: 0.9rem; 
+            font-weight: 700;
+            line-height: 1.6; 
+            color: var(--text-secondary); 
+            grid-column: 1 / -1; 
+        }
         .project-action-btn { position: relative; background: linear-gradient(180deg, var(--card-accent-color) 0%, hsl(from var(--card-accent-color) h s calc(l - 10%)) 100%); color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.6); border: none; border-bottom: 4px solid hsl(from var(--card-accent-color) h s calc(l - 25%)); border-radius: 50px; padding: 10px 18px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-family: var(--font-primary); box-shadow: inset 0 -2px 2px rgba(0,0,0,0.2), 0 2px 5px rgba(0,0,0,0.4); transition: all 0.1s ease-out; overflow: hidden; }
         .project-action-btn::before { content: ''; position: absolute; top: 0; left: -75%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 100%); transform: skewX(-25deg); transition: left 0.4s ease-in-out; }
         .project-action-btn:hover { transform: translateY(-1px); border-bottom-width: 5px; box-shadow: inset 0 -2px 2px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.5); }
@@ -239,7 +258,7 @@
         .stat-value { font-weight: 400; color: var(--cyber-text-primary); position: relative; }
         .typing-cursor { display: inline-block; background-color: var(--cyber-text-primary); width: 2px; height: 1.1rem; animation: blink 1s step-end infinite; margin-left: 3px; }
         @keyframes blink { 50% { background-color: transparent; } }
-        .connection-ports-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--gap-md); margin-top: var(--padding-lg); }
+        .connection-ports-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--gap-md); margin-top: var(--padding-lg); }
         .connection-port { background: var(--bg-interactive); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: var(--padding-md); text-align: center; text-decoration: none; color: var(--text-primary); transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer; }
         .connection-port:hover { transform: translateY(-5px) scale(1.02); border-color: var(--cyber-accent-color); box-shadow: 0 0 20px var(--cyber-shadow-color); background: var(--cyber-port-hover-bg); }
         .port-icon { font-size: 2.5rem; color: var(--cyber-accent-color); margin-bottom: var(--gap-sm); transition: transform 0.3s ease; }
@@ -250,12 +269,15 @@
         .connection-port:hover .port-detail { opacity: 0; }
         .connection-port:hover .port-action { transform: translateY(0); }
 
+        .tech-badge { display: inline-block; background: var(--bg-interactive-hover); color: var(--text-accent); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin: 3px; border: 1px solid var(--border-color); }
+        html.light-theme .tech-badge { background-color: var(--bg-interactive); color: var(--text-accent); }
+
         /* RESPONSIVE DESIGN */
         @media (min-width: 1201px) { .page-wrapper { padding: 2.5rem; } .main-content { grid-template-columns: 1fr 400px; gap: 2.5rem; } .inventory-section { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); } .inventory-title { font-size: 2rem; } }
         @media (max-width: 1200px) { .main-content { grid-template-columns: 1fr 320px; gap: var(--padding-md); padding: var(--padding-md); } .inventory-section { grid-template-columns: repeat(5, 1fr); } }
         @media (max-width: 992px) { .page-wrapper { padding: var(--padding-md); } .inventory-header { flex-direction: column; gap: var(--gap-md); padding: var(--padding-md); } .main-content { grid-template-columns: 1fr; padding: var(--padding-md); } .character-panel { order: -1; min-height: auto; padding-bottom: var(--padding-lg); } .inventory-section { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); } .character-avatar { width: 180px; height: 280px; font-size: 6rem; } .equipment-slot { width: 60px; height: 60px; } .equipment-icon { font-size: 1.8rem; } .equipment-helmet { top: 0; right: 0; } .equipment-chest { top: 70px; left: 0; } .equipment-weapon { top: 140px; right: 0; } .equipment-legs { top: 210px; left: 0; } .equipment-boots { bottom: 0; right: 0; top: auto; } }
         @media (max-width: 768px) { .page-wrapper { padding: var(--gap-md); } .inventory-header, .health-section, .main-content, .main-footer { padding: 1.2rem; } .inventory-title { font-size: 1.5rem; } .inventory-section { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: var(--gap-sm); } .nav-tabs { padding: 0 1rem; } .nav-tab { font-size: 0.8rem; padding: var(--padding-sm) var(--gap-md); } .character-avatar { width: 150px; height: 200px; font-size: 4rem; } .equipment-slot { width: 50px; height: 50px; } .equipment-icon { font-size: 1.5rem; } .equipment-helmet { top: -10px; right: 10px; } .equipment-chest { top: 50px; left: 0; } .equipment-weapon { top: 100px; right: 0; } .equipment-legs { top: 150px; left: 10px; } .equipment-boots { bottom: -10px; right: 20px; top: auto; } .profile-grid { grid-template-columns: 1fr; justify-items: center; text-align: center; } .profile-stats li { flex-direction: column; align-items: center; gap: 5px; } .stat-key { width: auto; } .connection-ports-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 600px) { .loading-text { font-size: 1rem;} .header-controls { gap: var(--gap-sm); } .hamburger-btn { display: flex; } .nav-tabs { position: absolute; top: 80px; left: 0; right: 0; flex-direction: column; background: var(--bg-modal); border-bottom: 1px solid var(--border-color); padding: 0; z-index: 1000; visibility: hidden; opacity: 0; transform: translateY(-20px); transition: all 0.3s ease-in-out; } .inventory-container.nav-active .nav-tabs { visibility: visible; opacity: 1; transform: translateY(0); } .nav-tab { width: 100%; text-align: left; padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(59, 130, 246, 0.1); border-left: 4px solid transparent; } .nav-tab:last-child { border-bottom: none; } .nav-tab.active, .nav-tab:hover { border-bottom-color: rgba(59, 130, 246, 0.1); border-left-color: var(--text-accent); background-color: var(--bg-interactive); } .inventory-container { position: relative; } }
+        @media (max-width: 600px) { .loading-text { font-size: 1rem;} .header-controls { gap: var(--gap-sm); } .hamburger-btn { display: flex; } .nav-tabs { position: absolute; top: 120px; left: 0; right: 0; flex-direction: column; background: var(--bg-modal); border-bottom: 1px solid var(--border-color); padding: 0; z-index: 1000; visibility: hidden; opacity: 0; transform: translateY(-20px); transition: all 0.3s ease-in-out; } .inventory-container.nav-active .nav-tabs { visibility: visible; opacity: 1; transform: translateY(0); } .nav-tab { width: 100%; text-align: left; padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(59, 130, 246, 0.1); border-left: 4px solid transparent; } .nav-tab:last-child { border-bottom: none; } .nav-tab.active, .nav-tab:hover { border-bottom-color: rgba(59, 130, 246, 0.1); border-left-color: var(--text-accent); background-color: var(--bg-interactive); } .inventory-container { position: relative; } }
         @media (max-width: 480px) { .inventory-title { font-size: 1.1rem; text-align: center; width: 100%; margin-bottom: 1rem;} .nav-tabs { top: 125px; } .inventory-header { flex-wrap: wrap; } .header-controls { width: 100%; justify-content: center; } .project-card-content { grid-template-columns: 1fr; text-align: center; } .project-card-portrait { margin: 0 auto; } }
     </style>
 </head>
@@ -298,6 +320,7 @@
     </div>
     <div class="page-wrapper">
         <div class="inventory-container">
+        <div class="card-corner top-left"></div><div class="card-corner top-right"></div><div class="card-corner bottom-left"></div><div class="card-corner bottom-right"></div>
             <header class="inventory-header">
                 <h1 class="inventory-title">&lt;/> RAHMAT HIDAYAT</h1>
                 <div class="header-controls">
@@ -436,17 +459,17 @@
         const inventoryData = {
             portfolio: [
                 { id: 'ecommerce', rarity: 'epic', icon: '🛒', title: 'E-Commerce', desc: 'Platform Toko Online Lengkap', projects: [
-                    { id: 'cos', title: 'Cirebon O-Store', subtitle: 'Marketplace Lokal Cirebon', desc: 'Platform marketplace untuk mendukung UMKM lokal di Cirebon, dengan fitur multi-vendor dan pembayaran terintegrasi.', tech: 'React, Node.js, Express, MongoDB', liveDemoUrl: '#', codeUrl: '#' },
-                    { id: 'middleway', title: 'Middle Way', subtitle: 'Platform Fashion Modern', desc: 'Toko online eksklusif untuk brand fashion modern, menekankan pada UX yang bersih, visual yang kuat, dan proses checkout yang cepat.', tech: 'Vue.js, Firebase, Stripe API', liveDemoUrl: '#' }
+                    { id: 'cos', title: 'E-Commerce', subtitle: 'Cirebon Online Store', desc: 'Platform marketplace lokal untuk mendukung UMKM lokal di Cirebon, dengan fitur multi-vendor dan pembayaran terintegrasi.', tech: 'React, Node.js, Express, MongoDB', liveDemoUrl: '#', codeUrl: '#' },
+                    { id: 'middleway', title: 'Marketplace', subtitle: 'Middle Way', desc: 'Platform yang menjadi jalan tengah antara penjual dan pembeli. Untuk menemukan properti dan produk impian dengan menghadirkan solusi yang adil dan transparan, sehingga kedua pihak dapat berinteraksi dengan lebih mudah dan saling menguntungkan.', tech: 'Vue.js, Firebase, Stripe API', liveDemoUrl: '#' }
                 ]},
                 { id: 'landing', rarity: 'rare', icon: '🌐', title: 'Landing Page', desc: 'Halaman Muka Responsif & Menarik', projects: [
-                    { id: 'hotel', title: 'Cirebon Hotel', subtitle: 'Situs Pemesanan Hotel', desc: 'Landing page elegan untuk promosi dan pemesanan kamar hotel, dilengkapi galeri foto dan animasi transisi yang halus.', tech: 'HTML, CSS, GSAP', liveDemoUrl: '#' },
-                    { id: 'klinik', title: 'Klinik Hasanah', subtitle: 'Profil Layanan Kesehatan', desc: 'Website informatif untuk klinik, menampilkan layanan, jadwal dokter, dan artikel kesehatan dalam desain yang profesional.', tech: 'HTML, Bootstrap, PHP', liveDemoUrl: '#', codeUrl: '#' },
-                    { id: 'puskesmas', title: 'Puskesmas Bunder', subtitle: 'Portal Informasi Publik', desc: 'Portal web untuk puskesmas yang menyediakan informasi layanan, alur pendaftaran, dan berita kesehatan kepada masyarakat.', tech: 'HTML, TailwindCSS, JavaScript', codeUrl: '#' }
+                    { id: 'hotel', title: 'Hotel', subtitle: 'Cirebon Hotel', desc: 'Landing page elegan untuk promosi dan pemesanan kamar hotel, dilengkapi galeri foto dan animasi transisi yang halus.', tech: 'HTML, CSS, GSAP', liveDemoUrl: '#' },
+                    { id: 'klinik', title: 'Klinik', subtitle: 'Klinik Aulia Hasanah Medika', desc: 'Website informatif untuk klinik, menampilkan layanan, jadwal dokter, dan artikel kesehatan dalam desain yang profesional.', tech: 'HTML, Bootstrap, PHP', liveDemoUrl: '#', codeUrl: '#' },
+                    { id: 'puskesmas', title: 'Puskesmas', subtitle: 'Puskesmas Bunder', desc: 'Portal web untuk puskesmas yang menyediakan informasi layanan, alur pendaftaran, dan berita kesehatan kepada masyarakat.', tech: 'HTML, TailwindCSS, JavaScript', codeUrl: '#' }
                 ]},
                 { id: 'webapp', rarity: 'legendary', icon: '📠', title: 'Web Application', desc: 'Aplikasi Bisnis Berbasis Web', projects: [
-                    { id: 'pos', title: 'Point of Sale', subtitle: 'Sistem Kasir Real-time', desc: 'Aplikasi kasir (POS) berbasis web untuk manajemen penjualan, inventaris, dan laporan secara real-time. Dibangun untuk kecepatan dan kemudahan penggunaan.', tech: 'React, Express, Socket.IO', codeUrl: '#' },
-                    { id: 'admin-panel', title: 'Admin Panel', subtitle: 'Dashboard Manajemen Data', desc: 'Panel admin yang kuat dan intuitif untuk manajemen data, pengguna, dan konten, dilengkapi dengan visualisasi data interaktif.', tech: 'Vue.js, Laravel, MySQL', liveDemoUrl: '#' },
+                    { id: 'pos', title: 'Point of Sale', subtitle: 'Toko Athaya', desc: 'Aplikasi kasir (POS) berbasis web untuk manajemen penjualan, inventaris, dan laporan secara real-time. Dibangun untuk kecepatan dan kemudahan penggunaan.', tech: 'React, Express, Socket.IO', codeUrl: '#' },
+                    { id: 'admin-panel', title: 'Admin Panel', subtitle: 'Rekam Medik Elektronik', desc: 'Panel admin yang kuat dan intuitif untuk manajemen data, pengguna, dan konten, dilengkapi dengan visualisasi data interaktif.', tech: 'Vue.js, Laravel, MySQL', liveDemoUrl: '#' },
                 ]},
                 { id: 'others', rarity: 'uncommon', icon: '⚡', title: 'Lainnya', desc: 'Proyek Backend dan Portofolio', projects: [
                     { id: 'api', title: 'API Server', subtitle: 'REST API Cepat & Aman', desc: 'Server RESTful API berkinerja tinggi, dilengkapi dengan otentikasi JWT dan dokumentasi API yang rinci.', tech: 'Node.js, Express, JWT', codeUrl: '#' },
@@ -461,17 +484,22 @@
                 { id: 'node', rarity: 'rare', icon: '<img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/nodejs-colored.svg" width="36" height="36" alt="Node.js" />', title: 'Node.js', level: 'Advanced', proficiency: 82, usage: 75, desc: 'Lingkungan runtime JavaScript sisi server.' },
                 { id: 'php', rarity: 'uncommon', icon: '<img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/php-colored.svg" width="36" height="36" alt="PHP" />', title: 'PHP', level: 'Intermediate', proficiency: 75, usage: 60, desc: 'Bahasa skrip sisi server untuk pengembangan web.' },
                 { id: 'laravel', rarity: 'epic', icon: '<img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/laravel-colored.svg" width="36" height="36" alt="Laravel" />', title: 'Laravel', level: 'Advanced', proficiency: 85, usage: 70, desc: 'Framework aplikasi web PHP yang elegan.' },
+                { id: 'python', rarity: 'rare', icon: '<img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/python-colored.svg" width="36" height="36" alt="Python" />', title: 'Python', level: 'Intermediate', proficiency: 78, usage: 50, desc: 'Bahasa pemrograman serbaguna untuk backend, skrip, dan analisis data.' },
+                { id: 'mysql', rarity: 'uncommon', icon: '<img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/mysql-colored.svg" width="36" height="36" alt="MySQL" />', title: 'MySQL', level: 'Advanced', proficiency: 85, usage: 75, desc: 'Sistem manajemen basis data relasional untuk menyimpan dan mengelola data.' },
+                { id: 'git', rarity: 'common', icon: '<img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/git-colored.svg" width="36" height="36" alt="Git" />', title: 'Git', level: 'Expert', proficiency: 90, usage: 100, desc: 'Sistem kontrol versi terdistribusi untuk melacak perubahan kode.' }
             ],
             experience: [
                 { id: 'fullstack', rarity: 'legendary', icon: '🚀', title: 'Fullstack', level: '4 Thn', proficiency: 90, usage: 95, desc: 'Pengembangan aplikasi end-to-end (Frontend & Backend).' },
                 { id: 'mobile', rarity: 'epic', icon: '📱', title: 'Mobile Dev', level: '2 Thn', proficiency: 80, usage: 60, desc: 'Membangun aplikasi untuk perangkat seluler Android dan iOS.' },
                 { id: 'ml', rarity: 'rare', icon: '🧠', title: 'Machine Learning', level: '1 Thn', proficiency: 65, usage: 30, desc: 'Implementasi model AI dasar dan integrasi API cerdas.' },
                 { id: 'tweaking', rarity: 'rare', icon: '🤖', title: 'Android Tweaking', level: 'Hobi', proficiency: 75, usage: 20, desc: 'Modifikasi dan optimasi sistem operasi Android.' },
+                { id: 'money-management', rarity: 'uncommon', icon: '💰', title: 'Money Management', level: 'Hobi', proficiency: 80, usage: 100, desc: 'Mengelola keuangan pribadi dan alokasi aset untuk tujuan jangka panjang.' },
+                { id: 'investor', rarity: 'uncommon', icon: '📊', title: 'Investor Ritel', level: 'Hobi', proficiency: 70, usage: 40, desc: 'Analisis dan investasi di pasar saham dan aset digital secara mandiri.' }
             ],
         };
 
         const infoData = {
-            education: { title: 'Education & Certifications', body: '<ul><li>S1 Informatika - Universitas Teknologi</li><li>AWS Certified Developer</li><li>Google Cloud Professional</li></ul>' },
+            education: { title: 'Education', body: '<ul><li>S1 - Teknik Informatika - STMIK IKMI Cirebon</li><li>Teknik Gambar Bangunan - SMKN 1 Jamblang</li></ul>' },
             experience: { title: 'Work Experience', body: '<ul><li>4+ Years Development Experience</li><li>50+ Completed Projects</li><li>Agile/Scrum Methodology</li></ul>' },
             achievements: { title: 'Achievements & Awards', body: '<ul><li>Best Developer Award 2023</li><li>Hackathon Winner</li><li>Open Source Contributor</li></ul>' },
             hobbies: { title: 'Hobbies & Interests', body: '<ul><li>Game Development</li><li>Photography</li><li>Tech Blogging</li></ul>' },
@@ -480,7 +508,7 @@
 
         const profileStats = [
             { key: 'CODENAME', value: 'Rahidoct' },
-            { key: 'CLASS', value: 'Full-Stack Developer' },
+            { key: 'CLASS', value: 'Full-Stack Developer, Mobile Developer, Machine Learning Developer' },
             { key: 'STATUS', value: 'Available for Mission' },
             { key: 'LOCATION', value: 'Cirebon, Indonesia' },
             { key: 'SPECIALTY', value: 'Immersive & Futuristic Interfaces' }
@@ -701,7 +729,19 @@
             wrapper.querySelector('.project-card-name').textContent = project.title;
             wrapper.querySelector('.project-card-portrait').innerHTML = `${category.icon}<div class="project-card-category-badge">${category.title}</div>`;
             wrapper.querySelector('.project-card-subtitle').textContent = project.subtitle;
-            wrapper.querySelector('.project-card-tech span').textContent = project.tech;
+            
+            const techContainer = wrapper.querySelector('.project-card-tech span');
+            techContainer.innerHTML = ''; 
+            const technologies = project.tech.split(',').map(t => t.trim());
+            technologies.forEach(techName => {
+                if (techName) {
+                    const badge = document.createElement('span');
+                    badge.className = 'tech-badge';
+                    badge.textContent = techName;
+                    techContainer.appendChild(badge);
+                }
+            });
+
             wrapper.querySelector('.project-card-description-text').textContent = project.desc;
 
             const actionsContainer = wrapper.querySelector('.project-card-actions');
